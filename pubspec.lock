@@ -121,6 +121,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.1+2"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.4"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
   js:
     dependency: transitive
     description:
@@ -135,6 +149,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  listview_utils:
+    dependency: "direct main"
+    description:
+      name: listview_utils
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0-nullsafety"
   matcher:
     dependency: transitive
     description:
