@@ -1,3 +1,4 @@
+import 'package:bucketlist/home/view/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bucketlist/home/view/home.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primaryColor: Constants.kprimaryColor,
       ),
-      home: HomePage(),
+      home: Loginpage(),
     );
   }
 }
