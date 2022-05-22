@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
           ]),
         )),
         SizedBox(height: height * 0.06),
-        Center(
+        Center(G
           child: Container(
             width: width * 0.91,
             height: height * 0.12,
