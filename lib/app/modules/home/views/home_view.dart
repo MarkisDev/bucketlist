@@ -16,7 +16,58 @@ class HomeView extends GetView<HomeController> {
     var height = Get.height;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.defaultDialog(
+              title: "Join a bucketlist!",
+              titlePadding: EdgeInsets.fromLTRB(0, 21, 0, 0),
+              backgroundColor: kprimaryColor,
+              titleStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 23,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500),
+              contentPadding: EdgeInsets.all(21),
+              content: TextField(
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black, width: 4),
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black, width: 4),
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black, width: 4),
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  hintText: 'Bucket ID',
+                ),
+              ),
+              buttonColor: ksecondaryBackgroundColor,
+              confirm: TextButton(
+                  onPressed: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Text(
+                      "Join",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Raleway'),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(ksecondaryBackgroundColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.black))))));
+        },
         child: Icon(
           Icons.add,
           color: Colors.black,
