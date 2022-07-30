@@ -45,7 +45,9 @@ class LoginView extends GetView<LoginController> {
                       'Login with Google',
                       style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.loginWithGoogle();
+                    },
                     style: ButtonStyle(
                         padding: MaterialStateProperty.all(EdgeInsets.all(15)),
                         backgroundColor: MaterialStateProperty.all(
