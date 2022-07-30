@@ -11,7 +11,7 @@ class RealtimeDb {
 
   static checkUser(String uid) async {
     var snapshot = await _database.ref().child('users/${uid}').get();
-    return snapshot.exists;
+    return snapshot;
   }
 
   static addUser(UserModel userModel) async {
@@ -19,12 +19,13 @@ class RealtimeDb {
         .ref('buckets/${userModel.bucketId}')
         .set({userModel.bucketId: true});
     await _database.ref("users/${userModel.id}").set({
-      "name": userModel.fullName,
+      "fullName": userModel.fullName,
       "firstName": userModel.firstName,
       "lastName": userModel.lastName,
       "id": userModel.id,
       "photoUrl": userModel.photoUrl,
       "bucketId": userModel.bucketId,
+      "email": userModel.email,
     });
   }
 }
