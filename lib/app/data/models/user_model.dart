@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 class UserModel {
   late String fullName;
   late String firstName;
@@ -15,4 +18,15 @@ class UserModel {
       required this.id,
       required this.photoUrl,
       required this.bucketId});
+
+  /// Constructor to init variables from Firebase
+  UserModel.fromdataSnapshot({required Map dataSnapshot}) {
+    fullName = dataSnapshot['fullName'];
+    firstName = dataSnapshot['firstName'];
+    lastName = dataSnapshot['lastName'];
+    bucketId = dataSnapshot['bucketId'];
+    photoUrl = dataSnapshot['photoUrl'];
+    email = dataSnapshot['email'];
+    id = dataSnapshot['id'];
+  }
 }
