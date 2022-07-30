@@ -28,6 +28,7 @@ class HomeView extends GetView<HomeController> {
                   fontWeight: FontWeight.w500),
               contentPadding: EdgeInsets.all(21),
               content: TextField(
+                controller: controller.bucketIdController,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -49,7 +50,15 @@ class HomeView extends GetView<HomeController> {
               ),
               buttonColor: ksecondaryBackgroundColor,
               confirm: TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (await controller.repository
+                        .checkUnique(controller.bucketIdController.text)) {
+                      await controller.repository.registerBucket(
+                          controller.args, controller.bucketIdController.text);
+                    } else {
+                      print("no");
+                    }
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Text(
