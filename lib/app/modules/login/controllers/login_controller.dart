@@ -54,7 +54,7 @@ class LoginController extends GetxController {
       }
       String firstName = parts[0];
 
-      var userSnapshot = await repository.checkUser(googleSignInAccount.id);
+      var userSnapshot = await repository.getuser(googleSignInAccount.id);
 
       if (!userSnapshot.exists) {
         String bucketId = await genUniqueId();
