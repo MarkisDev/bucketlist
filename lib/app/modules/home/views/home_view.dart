@@ -2,6 +2,7 @@ import 'package:bucketlist/app/modules/login/controllers/login_controller.dart';
 import 'package:bucketlist/app/ui/theme/color_theme.dart';
 import 'package:bucketlist/app/ui/widgets/appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:math' as math;
 import 'package:get/get.dart';
 import 'package:listview_utils/listview_utils.dart';
@@ -14,6 +15,14 @@ class HomeView extends GetView<HomeController> {
     var width = Get.width;
     var height = Get.height;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
+        backgroundColor: kprimaryColor,
+      ),
       backgroundColor: kprimaryBackgroundColor,
       appBar: kappBar,
       body: Column(children: [
@@ -62,7 +71,7 @@ class HomeView extends GetView<HomeController> {
                                   fontSize: 26,
                                   letterSpacing: -0.25,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -76,13 +85,32 @@ class HomeView extends GetView<HomeController> {
                                       Border.all(color: Colors.black, width: 4),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(12))),
-                              child: Text(
-                                'UNODICK',
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: -0.25),
-                              )),
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    await Clipboard.setData(ClipboardData(
+                                        text: controller.args.bucketId));
+                                    Get.snackbar(
+                                      'Success!',
+                                      'Copied Bucket ID!',
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: ksecondaryColor,
+                                      borderRadius: 20,
+                                      margin: EdgeInsets.all(15),
+                                      colorText: Colors.black,
+                                      duration: Duration(seconds: 4),
+                                      isDismissible: true,
+                                      dismissDirection:
+                                          DismissDirection.horizontal,
+                                      forwardAnimationCurve: Curves.easeOutBack,
+                                    );
+                                  },
+                                  child: Text(
+                                    '${controller.args.bucketId}',
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: -0.25),
+                                  ))),
                         )
                       ]),
                 )),
