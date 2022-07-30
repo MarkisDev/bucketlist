@@ -53,9 +53,10 @@ class LoginController extends GetxController {
       }
       String firstName = parts[0];
 
-      String bucketId;
+      var userSnapshot = await repository.checkUser(googleSignInAccount.id);
 
-      if (await repository.checkUser(googleSignInAccount.id)) {
+      if (!userSnapshot.exists) {
+        String bucketId = await genUniqueId();
         userModel = UserModel(
             fullName: fullName,
             firstName: firstName,
@@ -63,11 +64,14 @@ class LoginController extends GetxController {
             email: googleSignInAccount.email,
             id: googleSignInAccount.id,
             photoUrl: googleSignInAccount.photoUrl.toString(),
-            bucketId: 'Ayy');
+            bucketId: bucketId);
+        await repository.addUser(userModel);
+      } else {
+        userModel =
+            UserModel.fromdataSnapshot(dataSnapshot: userSnapshot.value);
       }
-      var x = await repository.addUser(userModel);
+
       await Get.offNamed('/home', arguments: userModel);
-      return;
     } catch (e) {
       throw (e);
     }
