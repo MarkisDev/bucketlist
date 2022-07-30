@@ -18,9 +18,16 @@ class RealtimeDb {
   }
 
   static addUser(UserModel userModel) async {
-    await _database
-        .ref('buckets/${userModel.bucketId}')
-        .set({"creatorId": userModel.id});
+    await _database.ref('buckets/${userModel.bucketId}').set({
+      "creatorInfo": {
+        "id": userModel.id,
+        "fullName": userModel.fullName,
+        "firstName": userModel.firstName,
+        "lastName": userModel.lastName,
+      },
+      "totalEntries": 0,
+      "timestamp": DateTime.now().toUtc().toIso8601String(),
+    });
     await _database.ref("users/${userModel.id}").set({
       "fullName": userModel.fullName,
       "firstName": userModel.firstName,
@@ -35,11 +42,16 @@ class RealtimeDb {
   static registerBucket(UserModel userModel, String bucketId) async {
     var bucketsRef = _database.ref("users/${userModel.id}/buckets");
     var userBucketsSnap = await bucketsRef.child(bucketId).get();
+    // Adding bucketId to user and User to bucket memebers. one-to-one.
     if (!userBucketsSnap.exists) {
       await bucketsRef.update({bucketId: 0});
-      await _database
-          .ref("buckets/${bucketId}/members")
-          .update({userModel.id: 0});
+      await _database.ref("buckets/${bucketId}/members").update({
+        userModel.id: {
+          "fullName": userModel.fullName,
+          "numberEntries": 0,
+          "timestamp": DateTime.now().toUtc().toIso8601String(),
+        }
+      });
     }
   }
 }
