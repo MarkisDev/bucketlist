@@ -12,7 +12,7 @@ class RealtimeDb {
     return snapshot.exists;
   }
 
-  static checkUser(String uid) async {
+  static getUser(String uid) async {
     var snapshot = await _database.ref().child('users/${uid}').get();
     return snapshot;
   }
