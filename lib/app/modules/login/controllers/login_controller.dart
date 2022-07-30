@@ -25,7 +25,8 @@ class LoginController extends GetxController {
 
   // Generates a 7-letter unique key
   genUniqueId() async {
-    String bucketId = await nanoid(7);
+    String bucketId = await customAlphabet(
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 5);
     bool res = await RealtimeDb.checkUnique(bucketId);
     if (res) {
       await genUniqueId();
