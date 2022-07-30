@@ -1,3 +1,4 @@
+import 'package:bucketlist/app/modules/login/controllers/login_controller.dart';
 import 'package:bucketlist/app/ui/theme/color_theme.dart';
 import 'package:bucketlist/app/ui/widgets/appBar.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class HomeView extends GetView<HomeController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Rijuth',
+                                '${controller.args.firstName}',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
@@ -54,7 +55,7 @@ class HomeView extends GetView<HomeController> {
                                 ),
                               ),
                               Text(
-                                'Menon',
+                                '${controller.args.lastName}',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
