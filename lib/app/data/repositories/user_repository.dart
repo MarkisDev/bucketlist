@@ -13,4 +13,8 @@ class UserRepository {
   checkUnique(String bucketId) async {
     return await RealtimeDb.checkUnique(bucketId);
   }
+
+  registerBucket(UserModel userModel, String bucketId) async {
+    return await RealtimeDb.registerBucket(userModel, bucketId);
+  }
 }
