@@ -5,6 +5,7 @@ class UserModel {
   late String email;
   late String id;
   late String photoUrl;
+  late String bucketId;
 
   UserModel(
       {required this.fullName,
@@ -12,5 +13,6 @@ class UserModel {
       required this.lastName,
       required this.email,
       required this.id,
-      required this.photoUrl});
+      required this.photoUrl,
+      required this.bucketId});
 }
