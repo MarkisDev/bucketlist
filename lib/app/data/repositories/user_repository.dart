@@ -6,8 +6,8 @@ class UserRepository {
     await RealtimeDb.addUser(userModel);
   }
 
-  checkUser(String uid) async {
-    return await RealtimeDb.checkUser(uid);
+  getuser(String uid) async {
+    return await RealtimeDb.getUser(uid);
   }
 
   checkUnique(String bucketId) async {
