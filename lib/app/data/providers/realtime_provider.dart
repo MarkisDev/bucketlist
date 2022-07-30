@@ -33,25 +33,13 @@ class RealtimeDb {
   }
 
   static registerBucket(UserModel userModel, String bucketId) async {
-    var bucketsRef = await _database.ref("users/${userModel.id}");
-    bucketsRef.runTransaction((value) {
-      Map<String, dynamic> _buckets = Map<String, dynamic>.from(value as Map);
-      if (_buckets.containsKey('buckets')) {
-        List<String> newBuckets =
-            List<String>.from(_buckets['buckets'] as List);
-        // Aborting transaction if user already part of bucket
-        if (newBuckets.contains(bucketId)) {
-          return Transaction.abort();
-        } else {
-          newBuckets.add(bucketId);
-          _buckets['buckets'] = newBuckets;
-        }
-      } else {
-        _buckets['buckets'] = [bucketId];
-      }
-
-      // Return the new data.
-      return Transaction.success(_buckets);
-    });
+    var bucketsRef = _database.ref("users/${userModel.id}/buckets");
+    var userBucketsSnap = await bucketsRef.child(bucketId).get();
+    if (!userBucketsSnap.exists) {
+      await bucketsRef.update({bucketId: 0});
+      await _database
+          .ref("buckets/${bucketId}/members")
+          .update({userModel.id: 0});
+    }
   }
 }
