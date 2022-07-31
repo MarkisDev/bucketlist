@@ -25,6 +25,16 @@ class RealtimeDb {
         "firstName": userModel.firstName,
         "lastName": userModel.lastName,
       },
+      "bucketId": userModel.bucketId,
+      "members": {
+        userModel.id: {
+          "timestamp": DateTime.now().toUtc().toIso8601String(),
+          "entries": 0,
+          "fullName": userModel.fullName,
+          "firstName": userModel.firstName,
+          "lastName": userModel.lastName,
+        },
+      },
       "totalEntries": 0,
       "timestamp": DateTime.now().toUtc().toIso8601String(),
     });
@@ -36,6 +46,7 @@ class RealtimeDb {
       "photoUrl": userModel.photoUrl,
       "bucketId": userModel.bucketId,
       "email": userModel.email,
+      "buckets": {userModel.bucketId: 0},
     });
   }
 
@@ -53,5 +64,14 @@ class RealtimeDb {
         }
       });
     }
+  }
+
+  static Stream<DatabaseEvent> getBuckets(String uid) {
+    var bucketsRef = _database.ref("users/${uid}/buckets");
+    return _database.ref("users/${uid}/buckets").onValue;
+  }
+
+  static Stream<DatabaseEvent> getBucketInfo(String bucketId) {
+    return _database.ref("buckets/${bucketId}").onValue;
   }
 }
