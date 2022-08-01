@@ -21,38 +21,24 @@ class UserRepository {
     return await RealtimeDb.registerBucket(userModel, bucketId);
   }
 
-  userBucketStream(String uid) {
+  bucketStream(String uid) {
     var bucketSnapshots = RealtimeDb.getBuckets(uid);
 
-    // Returning a STREAM of buckets to be listened to and bounded to the list in controller
     return bucketSnapshots.map((DatabaseEvent event) {
+      List temp = [];
       List bucketEntries =
           List.from(Map.from(event.snapshot.value as Map).keys);
-      // for (int i = 0; i < bucketEntries.length; i++) {
-      //   var x = RealtimeDb.getBucketInfo(bucketEntries[i]);
 
-      //   var t = x.map((DatabaseEvent test) {
-      //     var userSnapshot = Map.of(test.snapshot.value as Map);
-      //     BucketModel bucketModel =
-      //         BucketModel.fromdataSnapshot(dataSnapshot: userSnapshot);
-      //     return bucketModel;
-      //   }).listen((event) {
-      //     buckets.add(event);
-      //   });
-      // }
-      return bucketEntries;
-    });
-  }
-
-  bucketsStream(String userBucket) {
-    var x = RealtimeDb.getBucketInfo(userBucket);
-
-    return x.map((DatabaseEvent test) {
-      List<BucketModel> temp = [];
-      var userSnapshot = Map.of(test.snapshot.value as Map);
-      BucketModel bucketModel =
-          BucketModel.fromdataSnapshot(dataSnapshot: userSnapshot);
-      temp.add(bucketModel);
+      for (var userBucket in bucketEntries) {
+        var x = RealtimeDb.getBucketInfo(userBucket);
+        var t = x.map((DatabaseEvent test) {
+          var userSnapshot = Map.of(test.snapshot.value as Map);
+          BucketModel bucketModel =
+              BucketModel.fromdataSnapshot(dataSnapshot: userSnapshot);
+          return bucketModel;
+        });
+        temp.add(t);
+      }
       return temp;
     });
   }
