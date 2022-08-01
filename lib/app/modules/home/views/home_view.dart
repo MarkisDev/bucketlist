@@ -53,23 +53,38 @@ class HomeView extends GetView<HomeController> {
                   onPressed: () async {
                     if (await controller.repository
                         .checkUnique(controller.bucketIdController.text)) {
-                      await controller.repository.registerBucket(
-                          controller.args, controller.bucketIdController.text);
-                      Get.snackbar(
-                        'Success!',
-                        'Added new bucket!',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: ksecondaryColor,
-                        borderRadius: 20,
-                        margin: EdgeInsets.all(15),
-                        colorText: Colors.black,
-                        duration: Duration(seconds: 4),
-                        isDismissible: true,
-                        dismissDirection: DismissDirection.horizontal,
-                        forwardAnimationCurve: Curves.easeOutBack,
-                      );
-
-                      Get.back();
+                      if (await controller.repository.registerBucket(
+                          controller.args,
+                          controller.bucketIdController.text)) {
+                        Get.snackbar(
+                          'Success!',
+                          'Added new bucket!',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: ksecondaryColor,
+                          borderRadius: 20,
+                          margin: EdgeInsets.all(15),
+                          colorText: Colors.black,
+                          duration: Duration(seconds: 4),
+                          isDismissible: true,
+                          dismissDirection: DismissDirection.horizontal,
+                          forwardAnimationCurve: Curves.easeOutBack,
+                        );
+                        // Get.back();
+                      } else {
+                        Get.snackbar(
+                          'Error!',
+                          'Already part of bucket!',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
+                          borderRadius: 20,
+                          margin: EdgeInsets.all(15),
+                          colorText: Colors.black,
+                          duration: Duration(seconds: 4),
+                          isDismissible: true,
+                          dismissDirection: DismissDirection.horizontal,
+                          forwardAnimationCurve: Curves.easeOutBack,
+                        );
+                      }
                     } else {
                       Get.snackbar(
                         'Error!',
@@ -116,173 +131,176 @@ class HomeView extends GetView<HomeController> {
         SizedBox(
           height: height * 0.02,
         ),
-        Expanded(
-          child: GlowingOverscrollIndicator(
-            color: kprimaryColor,
-            axisDirection: AxisDirection.down,
-            child: Obx(() {
-              return CustomListView(
-                header: Column(children: [
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Center(
-                      child: Container(
-                    decoration: BoxDecoration(
-                        color: kprimaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(18))),
-                    width: width * 0.91,
-                    height: height * 0.15,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${controller.args.firstName}',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 26,
-                                    letterSpacing: -0.25,
-                                  ),
-                                ),
-                                Text(
-                                  '${controller.args.lastName}',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 26,
-                                    letterSpacing: -0.25,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Flexible(
-                            flex: 2,
-                            child: Container(
-                                margin: EdgeInsets.only(left: 41),
-                                padding: EdgeInsets.fromLTRB(7, 7, 7, 7),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.black, width: 4),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12))),
-                                child: GestureDetector(
-                                    onTap: () async {
-                                      await Clipboard.setData(ClipboardData(
-                                          text: controller.args.bucketId));
-                                      Get.snackbar(
-                                        'Success!',
-                                        'Copied Bucket ID!',
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: ksecondaryColor,
-                                        borderRadius: 20,
-                                        margin: EdgeInsets.all(15),
-                                        colorText: Colors.black,
-                                        duration: Duration(seconds: 4),
-                                        isDismissible: true,
-                                        dismissDirection:
-                                            DismissDirection.horizontal,
-                                        forwardAnimationCurve:
-                                            Curves.easeOutBack,
-                                      );
-                                    },
-                                    child: Text(
-                                      '${controller.args.bucketId}',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w700,
-                                          letterSpacing: -0.25),
-                                    ))),
-                          )
-                        ]),
-                  )),
-                  SizedBox(
-                    height: height * 0.03,
-                  ),
-                ]),
-                separatorBuilder: (context, _) {
-                  return SizedBox(height: height * 0.02);
-                },
-                itemCount: controller.bucketList.length,
-                footer: SizedBox(height: height * 0.02),
-                itemBuilder: (context, _, item) {
-                  return Center(
-                    child: Container(
-                      width: width * 0.91,
-                      height: height * 0.12,
+        Obx(
+          () => Expanded(
+            child: GlowingOverscrollIndicator(
+                color: kprimaryColor,
+                axisDirection: AxisDirection.down,
+                child: CustomListView(
+                  header: Column(children: [
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Center(
+                        child: Container(
                       decoration: BoxDecoration(
-                          color: ksecondaryBackgroundColor,
+                          color: kprimaryColor,
                           borderRadius: BorderRadius.all(Radius.circular(18))),
-                      child: Center(
-                        child: Row(
+                      width: width * 0.91,
+                      height: height * 0.15,
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Flexible(
-                              flex: 3,
+                              flex: 1,
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 12.0),
-                                      child: Text(
-                                        "${controller.bucketList[_].creatorInfo['fullName']}",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            fontFamily: 'Raleway',
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: -0.25),
-                                      ),
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${controller.args.firstName}',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 26,
+                                      letterSpacing: -0.25,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(
-                                        '${controller.bucketList[_].bucketId}',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontFamily: 'Raleway',
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 0.15),
-                                      ),
+                                  ),
+                                  Text(
+                                    '${controller.args.lastName}',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 26,
+                                      letterSpacing: -0.25,
                                     ),
-                                  ]),
+                                  ),
+                                ],
+                              ),
                             ),
                             Flexible(
-                              flex: 3,
-                              child: Transform.rotate(
-                                angle: 30 * math.pi / 180,
-                                child: VerticalDivider(
-                                  color: kprimaryColor,
-                                  thickness: 3.5,
+                              flex: 2,
+                              child: Container(
+                                  margin: EdgeInsets.only(left: 41),
+                                  padding: EdgeInsets.fromLTRB(7, 7, 7, 7),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, width: 4),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(12))),
+                                  child: GestureDetector(
+                                      onTap: () async {
+                                        await Clipboard.setData(ClipboardData(
+                                            text: controller.args.bucketId));
+                                        Get.snackbar(
+                                          'Success!',
+                                          'Copied Bucket ID!',
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: ksecondaryColor,
+                                          borderRadius: 20,
+                                          margin: EdgeInsets.all(15),
+                                          colorText: Colors.black,
+                                          duration: Duration(seconds: 4),
+                                          isDismissible: true,
+                                          dismissDirection:
+                                              DismissDirection.horizontal,
+                                          forwardAnimationCurve:
+                                              Curves.easeOutBack,
+                                        );
+                                      },
+                                      child: Text(
+                                        '${controller.args.bucketId}',
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: -0.25),
+                                      ))),
+                            )
+                          ]),
+                    )),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                  ]),
+                  separatorBuilder: (context, _) {
+                    return SizedBox(height: height * 0.02);
+                  },
+                  itemCount: controller.bucketList.length,
+                  footer: SizedBox(height: height * 0.02),
+                  itemBuilder: (context, _, item) {
+                    return Center(
+                      child: Container(
+                        width: width * 0.91,
+                        height: height * 0.12,
+                        decoration: BoxDecoration(
+                            color: ksecondaryBackgroundColor,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(18))),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Flexible(
+                                flex: 3,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 12.0),
+                                        child: Text(
+                                          "${controller.bucketList[_].creatorInfo['fullName']}",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: -0.25),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 10.0),
+                                        child: Text(
+                                          '${controller.bucketList[_].bucketId}',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.15),
+                                        ),
+                                      ),
+                                    ]),
+                              ),
+                              Flexible(
+                                flex: 3,
+                                child: Transform.rotate(
+                                  angle: 30 * math.pi / 180,
+                                  child: VerticalDivider(
+                                    color: kprimaryColor,
+                                    thickness: 3.5,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${controller.bucketList[_].totalEntries}',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.w500),
+                              Expanded(
+                                child: Text(
+                                  '${controller.bucketList[_].totalEntries}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              );
-            }),
+                    );
+                  },
+                )),
           ),
         ),
       ]),
