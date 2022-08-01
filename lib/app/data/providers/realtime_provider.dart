@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:bucketlist/app/data/models/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_list.dart';
 
 class RealtimeDb {
   static final FirebaseDatabase _database = FirebaseDatabase.instance;
@@ -63,11 +60,14 @@ class RealtimeDb {
           "timestamp": DateTime.now().toUtc().toIso8601String(),
         }
       });
+      return true;
+    } else {
+      // User already part of bucket
+      return false;
     }
   }
 
   static Stream<DatabaseEvent> getBuckets(String uid) {
-    var bucketsRef = _database.ref("users/${uid}/buckets");
     return _database.ref("users/${uid}/buckets").onValue;
   }
 
