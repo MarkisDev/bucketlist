@@ -7,68 +7,48 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
   var args = Get.arguments;
   final UserRepository repository;
   HomeController({required this.repository});
   var bucketList = [].obs;
-  final userBuckets = [].obs;
-  final hackBucket = [].obs;
-
+  var streams = [].obs;
+  var activeStreams = [].obs;
   final bucketIdController = TextEditingController();
   @override
   void onInit() {
     super.onInit();
-
-    // Binding stream to userBuckets(because bind automatically updates the userBuckets list FULLY.) and then listening
-    userBuckets.bindStream(repository.userBucketStream(args.id));
-    // Listening to changes in userBuckets so we can fetch EACH BUCKET individually, then add to our bucketList.
-    userBuckets.listen((p0) {
-      // Since userBuckets returns a list of buckets, iterating through each bucket and using a small "hack" to bind it to the
-      // observable hackBucket list. We could have made an observable bucketModel since bucketStream returns A list with SINGLE BucketModel
-      for (var i in p0) {
-        hackBucket.bindStream(repository.bucketsStream(i));
-      }
-    });
-
-    // HackBucket will return a list with single element, it will change eachtime userBucket list changes.
-    hackBucket.listen((p0) {
-      if (bucketList.isNotEmpty) {
-        // Addition to bucketList
-        if (bucketList.length <= userBuckets.length) {
-          // Checking if element NOT present in bucketList list
-
-          if (!bucketList
-              .any((element) => element.bucketId == p0[0].bucketId)) {
-            // Checking if all the elements in bucketList is also present in userBucketList to perform remove!
-            bucketList.add(p0[0]);
-          }
-        } else {
-          // Element has been removed, checking which to update bucketList
-          for (var bucket in bucketList) {
-            if (!userBuckets.contains(bucket.bucketId)) {
-              bucketList.removeWhere(
-                  (element) => element.bucketId == bucket.bucketId);
-              return;
+    // Binding to a streams list which holds a stream instance for each bucket.
+    // bucketsStream returns a list of stream for each bucket. Since we're using bind, we are mapping and returning the stream. check func.
+    streams.bindStream(repository.bucketStream(args.id));
+    // Listening to changes in the total streams (addition/deletion of buckets)
+    streams.listen((List userBucketsStream) {
+      // Iterating through list and listening to each bucket.
+      userBucketsStream.forEach((bucketStream) {
+        StreamSubscription x = bucketStream.listen(
+          (bucket) {
+            // Checking if an item was REMOVED from the bucket, if yes then fully clearing it and then adding everything again.
+            if (bucketList.length > userBucketsStream.length) {
+              bucketList.clear();
             }
-          }
-        }
-      } else {
-        bucketList.add(p0[0]);
-      }
+            // Checking if the element that's being added is not in the list, then adding it.
+            if (!bucketList
+                .any((element) => element.bucketId == bucket.bucketId)) {
+              bucketList.add(bucket);
+            } else {
+              // So the element in list actually exists...but here's the big brain! Since we have a listener for EACH bucket in the userBuckets
+              // A listener is telling us ONE bucket was changed, so we're changing that bucket :) (TOTAL ENTRIES!)
+              // Wish dart had replaceFunc (sigh)
+              var index = bucketList
+                  .indexWhere((element) => element.bucketId == bucket.bucketId);
+              bucketList.removeAt(index);
+              bucketList.insert(index, bucket);
+            }
+          },
+        );
+        activeStreams.add(x);
+      });
     });
   }
-
-  // for (final i in streams) {
-  //   i.forEach((var x) {
-  //     bucketList.addIf(bucketList.contains(x) == false, x);
-  //   });
-
-  // bucketList.bindStream(repository.bucketStream(args.id));
-  // repository.bucketStream(args.id).listen((var x) {
-
-  //   bucketList.assignAll(x);
-  // });
 
   @override
   void onReady() {
@@ -76,8 +56,11 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onClose() {
+  void onClose() async {
     bucketIdController.dispose();
-    // subscription.cancel();
+    // Okay, gotta close all those streamSubscriptions :D
+    for (var stream in activeStreams) {
+      await stream.cancel();
+    }
   }
 }
