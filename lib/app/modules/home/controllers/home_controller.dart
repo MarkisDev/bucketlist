@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:bucketlist/app/data/models/bucket_model.dart';
 import 'package:bucketlist/app/data/repositories/user_repository.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,6 +15,9 @@ class HomeController extends GetxController {
   var streams = [].obs;
   var activeStreams = [].obs;
   final bucketIdController = TextEditingController();
+  final GlobalKey<AnimatedFloatingActionButtonState> FabKey =
+      GlobalKey<AnimatedFloatingActionButtonState>();
+
   @override
   void onInit() {
     super.onInit();
