@@ -1,6 +1,8 @@
+import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:bucketlist/app/modules/login/controllers/login_controller.dart';
 import 'package:bucketlist/app/ui/theme/color_theme.dart';
 import 'package:bucketlist/app/ui/widgets/appBar.dart';
+import 'package:bucketlist/app/ui/widgets/fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math' as math;
@@ -15,115 +17,14 @@ class HomeView extends GetView<HomeController> {
     var width = Get.width;
     var height = Get.height;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.defaultDialog(
-              title: "Join a bucketlist!",
-              titlePadding: EdgeInsets.fromLTRB(0, 21, 0, 0),
-              backgroundColor: kprimaryColor,
-              titleStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 23,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500),
-              contentPadding: EdgeInsets.all(21),
-              content: TextField(
-                controller: controller.bucketIdController,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600),
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black, width: 4),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black, width: 4),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black, width: 4),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  hintText: 'Bucket ID',
-                ),
-              ),
-              buttonColor: ksecondaryBackgroundColor,
-              confirm: TextButton(
-                  onPressed: () async {
-                    if (await controller.repository
-                        .checkUnique(controller.bucketIdController.text)) {
-                      if (await controller.repository.registerBucket(
-                          controller.args,
-                          controller.bucketIdController.text)) {
-                        Get.snackbar(
-                          'Success!',
-                          'Added new bucket!',
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: ksecondaryColor,
-                          borderRadius: 20,
-                          margin: EdgeInsets.all(15),
-                          colorText: Colors.black,
-                          duration: Duration(seconds: 4),
-                          isDismissible: true,
-                          dismissDirection: DismissDirection.horizontal,
-                          forwardAnimationCurve: Curves.easeOutBack,
-                        );
-                        // Get.back();
-                      } else {
-                        Get.snackbar(
-                          'Error!',
-                          'Already part of bucket!',
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: Colors.red,
-                          borderRadius: 20,
-                          margin: EdgeInsets.all(15),
-                          colorText: Colors.black,
-                          duration: Duration(seconds: 4),
-                          isDismissible: true,
-                          dismissDirection: DismissDirection.horizontal,
-                          forwardAnimationCurve: Curves.easeOutBack,
-                        );
-                      }
-                    } else {
-                      Get.snackbar(
-                        'Error!',
-                        'Bucket doesn\'t exist!',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.red,
-                        borderRadius: 20,
-                        margin: EdgeInsets.all(15),
-                        colorText: Colors.black,
-                        duration: Duration(seconds: 4),
-                        isDismissible: true,
-                        dismissDirection: DismissDirection.horizontal,
-                        forwardAnimationCurve: Curves.easeOutBack,
-                      );
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                      "Join",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: 'Raleway'),
-                    ),
-                  ),
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(ksecondaryBackgroundColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.black))))));
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.black,
-        ),
-        backgroundColor: kprimaryColor,
+      floatingActionButton: AnimatedFloatingActionButton(
+        //Fab list
+        fabButtons: <Widget>[joinBucketFab(controller), addBucketFab()],
+        key: key,
+        colorStartAnimation: ksecondaryBackgroundColor,
+        colorEndAnimation: ksecondaryBackgroundColor,
+        animatedIconData: AnimatedIcons.menu_close,
+        tooltip: "Join or add a bucket!", //To principal button
       ),
       backgroundColor: kprimaryBackgroundColor,
       appBar: kappBar,
@@ -231,7 +132,7 @@ class HomeView extends GetView<HomeController> {
                     return Center(
                       child: Container(
                         width: width * 0.91,
-                        height: height * 0.12,
+                        height: height * 0.10,
                         decoration: BoxDecoration(
                             color: ksecondaryBackgroundColor,
                             borderRadius:
@@ -247,18 +148,14 @@ class HomeView extends GetView<HomeController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 12.0),
-                                        child: Text(
-                                          "${controller.bucketList[_].creatorInfo['fullName']}",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              fontFamily: 'Raleway',
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing: -0.25),
-                                        ),
+                                      Text(
+                                        "${controller.bucketList[_].creatorInfo['fullName']}",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontFamily: 'Raleway',
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: -0.25),
                                       ),
                                       Padding(
                                         padding:
