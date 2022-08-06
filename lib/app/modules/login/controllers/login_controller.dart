@@ -45,14 +45,16 @@ class LoginController extends GetxController {
       String lastName = " ";
       if (parts.length == 3) {
         if (parts[parts.length - 1].length == 1) {
-          lastName = parts[1];
+          lastName = parts[1].toLowerCase().capitalizeFirst.toString();
         } else {
-          lastName = parts[parts.length - 1];
+          lastName =
+              parts[parts.length - 1].toLowerCase().capitalizeFirst.toString();
         }
       } else {
-        lastName = parts[parts.length - 1];
+        lastName =
+            parts[parts.length - 1].toLowerCase().capitalizeFirst.toString();
       }
-      String firstName = parts[0];
+      String firstName = parts[0].toLowerCase().capitalizeFirst.toString();
 
       var userSnapshot = await repository.getuser(googleSignInAccount.id);
 
