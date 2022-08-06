@@ -1,10 +1,12 @@
+import 'package:bucketlist/app/data/models/bucket_model.dart';
 import 'package:bucketlist/app/data/models/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class RealtimeDb {
   static final FirebaseDatabase _database = FirebaseDatabase.instance;
 
-  static checkUnique(String bucketId) async {
+  // Check if bucket exists
+  static checkBucket(String bucketId) async {
     var snapshot = await _database.ref().child('buckets/${bucketId}').get();
     return snapshot.exists;
   }
@@ -14,27 +16,39 @@ class RealtimeDb {
     return snapshot;
   }
 
+  static addBucket(BucketModel bucketModel) async {
+    await _database.ref('buckets/${bucketModel.bucketId}').set({
+      "creatorInfo": bucketModel.creatorInfo,
+      "bucketId": bucketModel.bucketId,
+      "members": bucketModel.members,
+      "totalEntries": bucketModel.totalEntries,
+      "timestamp": DateTime.now().toUtc().toIso8601String(),
+      "private": bucketModel.private,
+      "timestamp": DateTime.now().toUtc().toIso8601String()
+    });
+    // Making this for future updates
+    return true;
+  }
+
   static addUser(UserModel userModel) async {
-    await _database.ref('buckets/${userModel.bucketId}').set({
-      "creatorInfo": {
-        "id": userModel.id,
+    // Adding bucket
+    BucketModel bucketModel = BucketModel(creatorInfo: {
+      "id": userModel.id,
+      "fullName": userModel.fullName,
+      "firstName": userModel.firstName,
+      "lastName": userModel.lastName,
+    }, members: {
+      userModel.id: {
+        "timestamp": DateTime.now().toUtc().toIso8601String(),
+        "entries": 0,
         "fullName": userModel.fullName,
         "firstName": userModel.firstName,
         "lastName": userModel.lastName,
       },
-      "bucketId": userModel.bucketId,
-      "members": {
-        userModel.id: {
-          "timestamp": DateTime.now().toUtc().toIso8601String(),
-          "entries": 0,
-          "fullName": userModel.fullName,
-          "firstName": userModel.firstName,
-          "lastName": userModel.lastName,
-        },
-      },
-      "totalEntries": 0,
-      "timestamp": DateTime.now().toUtc().toIso8601String(),
-    });
+    }, bucketId: userModel.bucketId, totalEntries: 0, private: true);
+
+    await addBucket(bucketModel);
+
     await _database.ref("users/${userModel.id}").set({
       "fullName": userModel.fullName,
       "firstName": userModel.firstName,
