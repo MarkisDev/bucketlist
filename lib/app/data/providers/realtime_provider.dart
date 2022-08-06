@@ -48,11 +48,13 @@ class RealtimeDb {
   }
 
   static registerBucket(UserModel userModel, String bucketId) async {
-    var bucketsRef = _database.ref("users/${userModel.id}/buckets");
-    var userBucketsSnap = await bucketsRef.child(bucketId).get();
+    var bucketsRefCurrentUser = _database.ref("users/${userModel.id}/buckets");
+    var userBucketsSnap = await bucketsRefCurrentUser.child(bucketId).get();
     // Adding bucketId to user and User to bucket memebers. one-to-one.
     if (!userBucketsSnap.exists) {
-      await bucketsRef.update({bucketId: 0});
+      // Adding for user
+
+      await bucketsRefCurrentUser.update({bucketId: 0});
       await _database.ref("buckets/${bucketId}/members").update({
         userModel.id: {
           "fullName": userModel.fullName,
