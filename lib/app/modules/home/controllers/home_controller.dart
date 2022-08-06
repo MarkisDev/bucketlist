@@ -14,6 +14,7 @@ class HomeController extends GetxController {
   var bucketList = [].obs;
   var streams = [].obs;
   var activeStreams = [].obs;
+  final newBucketId = "".obs;
   final bucketIdController = TextEditingController();
   final GlobalKey<AnimatedFloatingActionButtonState> FabKey =
       GlobalKey<AnimatedFloatingActionButtonState>();
