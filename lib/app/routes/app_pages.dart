@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/bucketEntry/bindings/bucket_entry_binding.dart';
+import '../modules/bucketEntry/views/bucket_entry_view.dart';
 import '../modules/bucketInfo/bindings/bucket_info_binding.dart';
 import '../modules/bucketInfo/views/bucket_info_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.BUCKET_INFO,
       page: () => BucketInfoView(),
       binding: BucketInfoBinding(),
+    ),
+    GetPage(
+      name: _Paths.BUCKET_ENTRY,
+      page: () => BucketEntryView(),
+      binding: BucketEntryBinding(),
     ),
   ];
 }
