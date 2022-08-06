@@ -1,3 +1,4 @@
+import 'package:bucketlist/app/data/models/bucket_model.dart';
 import 'package:bucketlist/app/data/models/user_model.dart';
 import 'package:bucketlist/app/data/providers/realtime_provider.dart';
 import 'package:bucketlist/app/data/repositories/user_repository.dart';
@@ -24,16 +25,6 @@ class LoginController extends GetxController {
   void onClose() {}
 
   // Generates a 7-letter unique key
-  genUniqueId() async {
-    String bucketId = await customAlphabet(
-        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 5);
-    bool res = await RealtimeDb.checkUnique(bucketId);
-    if (res) {
-      await genUniqueId();
-    } else {
-      return bucketId;
-    }
-  }
 
   // Logins user using GoogleSignIn
   loginWithGoogle() async {
@@ -59,7 +50,7 @@ class LoginController extends GetxController {
       var userSnapshot = await repository.getuser(googleSignInAccount.id);
 
       if (!userSnapshot.exists) {
-        String bucketId = await genUniqueId();
+        String bucketId = await BucketModel.genId();
         userModel = UserModel(
             fullName: fullName,
             firstName: firstName,
