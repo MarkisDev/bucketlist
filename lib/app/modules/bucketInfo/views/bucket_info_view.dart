@@ -93,7 +93,7 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                         'Success!',
                                         'Copied Bucket ID!',
                                         snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: ksecondaryColor,
+                                        backgroundColor: kprimaryColor,
                                         borderRadius: 20,
                                         margin: EdgeInsets.all(15),
                                         colorText: Colors.black,
@@ -126,7 +126,9 @@ class BucketInfoView extends GetView<BucketInfoController> {
                 footer: SizedBox(height: height * 0.02),
                 itemBuilder: (context, _, item) {
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed('bucket-entry', arguments: controller.args);
+                    },
                     child: Center(
                       child: Container(
                         width: width * 0.91,
