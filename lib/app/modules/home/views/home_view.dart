@@ -19,7 +19,10 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       floatingActionButton: AnimatedFloatingActionButton(
         //Fab list
-        fabButtons: <Widget>[joinBucketFab(controller), addBucketFab()],
+        fabButtons: <Widget>[
+          joinBucketFab(controller),
+          addBucketFab(controller)
+        ],
         key: key,
         colorStartAnimation: ksecondaryBackgroundColor,
         colorEndAnimation: ksecondaryBackgroundColor,
