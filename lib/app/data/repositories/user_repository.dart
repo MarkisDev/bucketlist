@@ -9,12 +9,16 @@ class UserRepository {
     await RealtimeDb.addUser(userModel);
   }
 
+  addBucket(BucketModel bucketModel) async {
+    return await RealtimeDb.addBucket(bucketModel);
+  }
+
   getuser(String uid) async {
     return await RealtimeDb.getUser(uid);
   }
 
-  checkUnique(String bucketId) async {
-    return await RealtimeDb.checkUnique(bucketId);
+  checkBucket(String bucketId) async {
+    return await RealtimeDb.checkBucket(bucketId);
   }
 
   registerBucket(UserModel userModel, String bucketId) async {
