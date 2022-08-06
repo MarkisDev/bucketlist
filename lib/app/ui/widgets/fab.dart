@@ -2,7 +2,6 @@ import 'package:bucketlist/app/data/models/bucket_model.dart';
 import 'package:bucketlist/app/data/models/user_model.dart';
 import 'package:bucketlist/app/ui/theme/color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 
 Widget addBucketFab(var controller) {
