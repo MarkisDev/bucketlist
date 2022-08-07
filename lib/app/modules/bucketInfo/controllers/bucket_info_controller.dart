@@ -9,7 +9,7 @@ class BucketInfoController extends GetxController {
   final UserRepository repository;
   late final UserModel userModel;
   BucketInfoController({required this.repository});
-  var newEntry = false;
+  var newEntry = true;
   var entries = [].obs;
 
   @override
