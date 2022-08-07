@@ -37,6 +37,7 @@ class RealtimeDb {
       "fullName": userModel.fullName,
       "firstName": userModel.firstName,
       "lastName": userModel.lastName,
+      "email": userModel.email
     }, members: {
       userModel.id: {
         "timestamp": DateTime.now().toUtc().toIso8601String(),
@@ -81,6 +82,14 @@ class RealtimeDb {
       // User already part of bucket
       return false;
     }
+  }
+
+  static addBucketEntry(String bucketId, Map data) async {
+    await _database.ref("buckets/${bucketId}/entries").push().set(data);
+  }
+
+  static Stream<DatabaseEvent> getBucketEntries(String bucketId) {
+    return _database.ref("buckets/${bucketId}/entries").onValue;
   }
 
   static Stream<DatabaseEvent> getBuckets(String uid) {
