@@ -84,8 +84,34 @@ class RealtimeDb {
     }
   }
 
-  static addBucketEntry(String bucketId, Map data) async {
+  static addBucketEntry(String bucketId, Map data, String userId) async {
+    // Update entries in user buckets
+
+    await _database
+        .ref("users/${userId}/buckets/${bucketId}")
+        .runTransaction((var value) {
+      int x = value as int;
+      x += 1;
+
+      return Transaction.success(x);
+    });
+
+    // Update entries in buckets
+    await _database
+        .ref("buckets/${bucketId}/totalEntries")
+        .runTransaction((var value) {
+      int x = value as int;
+      x += 1;
+
+      return Transaction.success(x);
+    });
+
+    // Add entry to db
     await _database.ref("buckets/${bucketId}/entries").push().set(data);
+  }
+
+  static updateBucketEntry(String bucketId, Map data, String entryId) {
+    return _database.ref('buckets/${bucketId}/entries').update({entryId: data});
   }
 
   static Stream<DatabaseEvent> getBucketEntries(String bucketId) {
