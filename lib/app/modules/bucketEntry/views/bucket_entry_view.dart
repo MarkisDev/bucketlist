@@ -22,9 +22,7 @@ class BucketEntryView extends GetView<BucketEntryController> {
                 iconSelectedFillColor: kprimaryColor),
           ),
           TextField(
-            onChanged: (value) {
-              controller.titleName.value = value;
-            },
+            controller: controller.titleController,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)),
