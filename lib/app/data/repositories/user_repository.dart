@@ -55,6 +55,8 @@ class UserRepository {
       Map bucket = Map.of(event.snapshot.value as Map);
 
       for (final key in bucket['entries'].keys) {
+        Map data = bucket['entries'][key];
+        data['entryId'] = key;
         entries.add(bucket['entries'][key]);
       }
 
