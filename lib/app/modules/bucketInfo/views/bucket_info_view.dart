@@ -20,6 +20,7 @@ class BucketInfoView extends GetView<BucketInfoController> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: ksecondaryColor,
         onPressed: () {
+          controller.newEntry = true;
           Get.toNamed('bucket-entry', arguments: {
             "userModel": controller.userModel,
             "bucketModel": controller.bucketModel
@@ -134,9 +135,12 @@ class BucketInfoView extends GetView<BucketInfoController> {
                   itemBuilder: (context, _, item) {
                     return GestureDetector(
                       onTap: () {
+                        controller.newEntry = false;
+
                         Get.toNamed('bucket-entry', arguments: {
                           "userModel": controller.userModel,
                           "bucketModel": controller.bucketModel,
+                          "bucketData": controller.entries[_],
                         });
                       },
                       child: Center(
