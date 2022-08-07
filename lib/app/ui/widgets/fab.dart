@@ -121,6 +121,7 @@ Widget addBucketFab(var controller) {
                         "fullName": userModel.fullName,
                         "firstName": userModel.firstName,
                         "lastName": userModel.lastName,
+                        "email": userModel.email,
                       },
                       members: {
                         userModel.id: {
