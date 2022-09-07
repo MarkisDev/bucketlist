@@ -1,3 +1,4 @@
+import 'package:bucketlist/app/data/providers/realtime_provider.dart';
 import 'package:bucketlist/app/ui/theme/color_theme.dart';
 import 'package:bucketlist/app/ui/widgets/appBar.dart';
 import 'package:flutter/material.dart';
@@ -136,12 +137,84 @@ class BucketInfoView extends GetView<BucketInfoController> {
                     return GestureDetector(
                       onTap: () {
                         controller.newEntry = false;
-
-                        Get.toNamed('bucket-entry', arguments: {
-                          "userModel": controller.userModel,
-                          "bucketModel": controller.bucketModel,
-                          "bucketData": controller.entries[_],
-                        });
+                        if (!controller.entries[_]['mutexInfo']['lock']) {
+                          var userModel = controller.userModel;
+                          var data = {
+                            "mutexInfo": {
+                              "lock": true,
+                              "id": userModel.id,
+                              "fullName": userModel.fullName,
+                              "firstName": userModel.firstName,
+                              "lastName": userModel.lastName,
+                              "email": userModel.email,
+                            },
+                          };
+                          RealtimeDb.updateBucketEntry(
+                              controller.bucketModel.bucketId,
+                              data,
+                              controller.entries[_]['entryId']);
+                          Get.toNamed('bucket-entry', arguments: {
+                            "userModel": controller.userModel,
+                            "bucketModel": controller.bucketModel,
+                            "bucketData": controller.entries[_],
+                          });
+                        } else {
+                          Get.defaultDialog(
+                              title: "Oops!",
+                              titlePadding: EdgeInsets.fromLTRB(0, 21, 0, 0),
+                              backgroundColor: kprimaryColor,
+                              titleStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 23,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500),
+                              contentPadding: EdgeInsets.all(21),
+                              content: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "This entry is currently being edited by ${controller.entries[_]['mutexInfo']['fullName']}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 12),
+                                    child: TextButton(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        child: Text(
+                                          "Go back",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontFamily: 'Raleway'),
+                                        ),
+                                      ),
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  ksecondaryBackgroundColor),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          18.0),
+                                                  side: BorderSide(
+                                                      color: Colors.black)))),
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ));
+                        }
                       },
                       child: Center(
                         child: Container(
