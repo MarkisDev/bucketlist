@@ -40,18 +40,27 @@ class BucketEntryController extends GetxController {
     var bucketController = Get.find<BucketInfoController>();
 
     var json = jsonEncode(quillController.document.toDelta().toJson());
-    var data = {
-      "title": titleController.text,
-      "json": json,
-      "creatorInfo": {
-        "id": userModel.id,
-        "fullName": userModel.fullName,
-        "firstName": userModel.firstName,
-        "lastName": userModel.lastName,
-        "email": userModel.email,
-      }
-    };
+
     if (bucketController.newEntry) {
+      var data = {
+        "title": titleController.text,
+        "json": json,
+        "creatorInfo": {
+          "id": userModel.id,
+          "fullName": userModel.fullName,
+          "firstName": userModel.firstName,
+          "lastName": userModel.lastName,
+          "email": userModel.email,
+        },
+        "mutexInfo": {
+          "lock": false,
+          "id": userModel.id,
+          "fullName": userModel.fullName,
+          "firstName": userModel.firstName,
+          "lastName": userModel.lastName,
+          "email": userModel.email,
+        },
+      };
       RealtimeDb.addBucketEntry(bucketModel.bucketId, data, userModel.id);
       Get.snackbar(
         'Success!',
@@ -67,6 +76,18 @@ class BucketEntryController extends GetxController {
         forwardAnimationCurve: Curves.easeOutBack,
       );
     } else {
+      var data = {
+        "title": titleController.text,
+        "json": json,
+        "mutexInfo": {
+          "lock": false,
+          "id": userModel.id,
+          "fullName": userModel.fullName,
+          "firstName": userModel.firstName,
+          "lastName": userModel.lastName,
+          "email": userModel.email,
+        },
+      };
       RealtimeDb.updateBucketEntry(
           bucketModel.bucketId, data, bucketData['entryId']);
       Get.snackbar(
