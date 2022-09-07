@@ -11,9 +11,14 @@ class LoginController extends GetxController {
   LoginController({required this.repository});
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   late UserModel userModel;
+  late GoogleSignInAccount? googleSignInAccount;
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    if (await _googleSignIn.isSignedIn()) {
+      googleSignInAccount = await _googleSignIn.signInSilently();
+      moveToHome();
+    }
   }
 
   @override
@@ -24,13 +29,18 @@ class LoginController extends GetxController {
   @override
   void onClose() {}
 
-  // Generates a 7-letter unique key
-
-  // Logins user using GoogleSignIn
   loginWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
+      googleSignInAccount = await _googleSignIn.signIn();
+      moveToHome();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Logins user using GoogleSignIn
+  moveToHome() async {
+    try {
       String fullName = googleSignInAccount!.displayName.toString();
       List<String> parts = fullName.split(" ");
       String lastName = " ";
@@ -47,7 +57,7 @@ class LoginController extends GetxController {
       }
       String firstName = parts[0].toLowerCase().capitalizeFirst.toString();
 
-      var userSnapshot = await repository.getuser(googleSignInAccount.id);
+      var userSnapshot = await repository.getuser(googleSignInAccount!.id);
 
       if (!userSnapshot.exists) {
         String bucketId = await BucketModel.genId();
@@ -55,9 +65,9 @@ class LoginController extends GetxController {
             fullName: fullName,
             firstName: firstName,
             lastName: lastName,
-            email: googleSignInAccount.email,
-            id: googleSignInAccount.id,
-            photoUrl: googleSignInAccount.photoUrl.toString(),
+            email: googleSignInAccount!.email,
+            id: googleSignInAccount!.id,
+            photoUrl: googleSignInAccount!.photoUrl.toString(),
             bucketId: bucketId);
         await repository.addUser(userModel);
       } else {
