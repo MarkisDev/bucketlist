@@ -53,13 +53,13 @@ class UserRepository {
       List entries = [];
 
       Map bucket = Map.of(event.snapshot.value as Map);
-
-      for (final key in bucket['entries'].keys) {
-        Map data = bucket['entries'][key];
-        data['entryId'] = key;
-        entries.add(bucket['entries'][key]);
+      if (bucket.containsKey('entries')) {
+        for (final key in bucket['entries'].keys) {
+          Map data = bucket['entries'][key];
+          data['entryId'] = key;
+          entries.add(bucket['entries'][key]);
+        }
       }
-
       return entries;
     });
   }
