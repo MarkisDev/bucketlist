@@ -125,6 +125,7 @@ class BucketEntryController extends GetxController {
             "firstName": userModel.firstName,
             "lastName": userModel.lastName,
             "email": userModel.email,
+            "timestamp": DateTime.now().toUtc().toIso8601String(),
           },
           "mutexInfo": {
             "lock": false,
@@ -133,6 +134,7 @@ class BucketEntryController extends GetxController {
             "firstName": userModel.firstName,
             "lastName": userModel.lastName,
             "email": userModel.email,
+            "timestamp": DateTime.now().toUtc().toIso8601String(),
           },
         };
         RealtimeDb.addBucketEntry(bucketModel.bucketId, data, userModel.id);
@@ -162,6 +164,7 @@ class BucketEntryController extends GetxController {
             "firstName": userModel.firstName,
             "lastName": userModel.lastName,
             "email": userModel.email,
+            "timestamp": DateTime.now().toUtc().toIso8601String(),
           },
         };
         RealtimeDb.updateBucketEntry(
