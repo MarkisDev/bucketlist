@@ -1,4 +1,5 @@
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
+import 'package:bucketlist/app/data/providers/realtime_provider.dart';
 import 'package:bucketlist/app/modules/login/controllers/login_controller.dart';
 import 'package:bucketlist/app/ui/theme/color_theme.dart';
 import 'package:bucketlist/app/ui/widgets/appBar.dart';
@@ -152,7 +153,7 @@ class HomeView extends GetView<HomeController> {
                                 message: "private",
                                 textStyle: TextStyle(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w600,
                                     fontFamily: 'poppins',
                                     letterSpacing: -0.5,
                                     fontSize: 14),
@@ -292,6 +293,10 @@ class HomeView extends GetView<HomeController> {
                       onTap: () {
                         Get.toNamed('bucket-info',
                             arguments: controller.bucketList[_]);
+                      },
+                      onLongPress: () {
+                        RealtimeDb.deleteBucket(
+                            controller.bucketList[_].bucketId);
                       },
                       child: Center(
                         child: Container(
