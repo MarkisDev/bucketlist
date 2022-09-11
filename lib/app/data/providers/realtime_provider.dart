@@ -12,6 +12,22 @@ class RealtimeDb {
     return snapshot.exists;
   }
 
+  static checkBucketPrivate(String bucketId) async {
+    var snapshot =
+        await _database.ref().child('buckets/${bucketId}/private').get();
+    return snapshot.value;
+  }
+
+  static checkUserBucketId(String userId, String bucketId) async {
+    var snapshot =
+        await _database.ref().child('users/${userId}/bucketId').get();
+    if (snapshot.value == bucketId) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static getUser(String uid) async {
     var snapshot = await _database.ref().child('users/${uid}').get();
     return snapshot;
@@ -107,6 +123,14 @@ class RealtimeDb {
       return Transaction.success(x);
     });
 
+    await _database
+        .ref("buckets/${bucketId}/members/${userId}/numberEntries")
+        .runTransaction((var value) {
+      int x = value as int;
+      x += 1;
+
+      return Transaction.success(x);
+    });
     // Add entry to db
     await _database.ref("buckets/${bucketId}/entries").push().set(data);
   }
@@ -143,7 +167,30 @@ class RealtimeDb {
       return Transaction.success(x);
     });
 
+    await _database
+        .ref("buckets/${bucketId}/members/${userId}/numberEntries")
+        .runTransaction((var value) {
+      int x = value as int;
+      x -= 1;
+
+      return Transaction.success(x);
+    });
+
     return _database.ref('buckets/${bucketId}/entries/$entryId').remove();
+  }
+
+  static deleteBucket(String bucketId) async {
+    // Getting members from bucket and converting to a list
+    var memberInfoSnapshot =
+        await _database.ref("buckets/${bucketId}/members").get();
+    List memberEntries =
+        List.from(Map.from(memberInfoSnapshot.value as Map).keys);
+    // Deleting bucket from each member
+    for (var userId in memberEntries) {
+      _database.ref('users/${userId}/buckets/${bucketId}').remove();
+    }
+
+    _database.ref('buckets/${bucketId}').remove();
   }
 
   static Stream<DatabaseEvent> getBucketEntries(String bucketId) {
