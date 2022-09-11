@@ -80,7 +80,9 @@ class RealtimeDb {
       await _database.ref("buckets/${bucketId}/members").update({
         userModel.id: {
           "fullName": userModel.fullName,
-          "numberEntries": 0,
+          "firstName": userModel.firstName,
+          "lastName": userModel.lastName,
+          "entries": 0,
           "timestamp": DateTime.now().toUtc().toIso8601String(),
         }
       });
@@ -114,7 +116,7 @@ class RealtimeDb {
     });
 
     await _database
-        .ref("buckets/${bucketId}/members/${userId}/numberEntries")
+        .ref("buckets/${bucketId}/members/${userId}/entries")
         .runTransaction((var value) {
       int x = value as int;
       x += 1;
