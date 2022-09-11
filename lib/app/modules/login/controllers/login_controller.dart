@@ -84,6 +84,6 @@ class LoginController extends GetxController {
   /// Logs user out
   Future<void> logoutGoogle() async {
     await _googleSignIn.signOut();
-    Get.offAllNamed('/');
+    Get.offAllNamed('/login');
   }
 }
