@@ -47,81 +47,136 @@ class HomeView extends GetView<HomeController> {
                       height: height * 0.02,
                     ),
                     Center(
-                        child: Container(
-                      decoration: BoxDecoration(
-                          color: kprimaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(18))),
-                      width: width * 0.91,
-                      height: height * 0.15,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${controller.args.firstName}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 26,
-                                      letterSpacing: -0.25,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${controller.args.lastName}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 26,
-                                      letterSpacing: -0.25,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        child: InkWell(
+                      onLongPress: () {
+                        Get.bottomSheet(
+                          SizedBox(
+                            width: width * 0.1,
+                            child: TextButton(
+                              child: Text("Sign Out!",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black)),
+                              onPressed: () {
+                                controller.loginController.logoutGoogle();
+                              },
+                              style: ButtonStyle(
+                                  overlayColor: MaterialStateProperty.all(
+                                      ksecondaryBackgroundColor
+                                          .withOpacity(0.2)),
+                                  backgroundColor:
+                                      MaterialStateProperty.all(kprimaryColor),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ))),
                             ),
-                            Flexible(
-                              flex: 2,
-                              child: Container(
-                                  margin: EdgeInsets.only(left: 41),
-                                  padding: EdgeInsets.fromLTRB(7, 7, 7, 7),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black, width: 4),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(12))),
-                                  child: GestureDetector(
-                                      onTap: () async {
-                                        await Clipboard.setData(ClipboardData(
-                                            text: controller.args.bucketId));
-                                        Get.snackbar(
-                                          'Success!',
-                                          'Copied Bucket ID!',
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: ksecondaryColor,
-                                          borderRadius: 20,
-                                          margin: EdgeInsets.all(15),
-                                          colorText: Colors.black,
-                                          duration: Duration(seconds: 4),
-                                          isDismissible: true,
-                                          dismissDirection:
-                                              DismissDirection.horizontal,
-                                          forwardAnimationCurve:
-                                              Curves.easeOutBack,
-                                        );
-                                      },
-                                      child: Text(
-                                        '${controller.args.bucketId}',
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w700,
-                                            letterSpacing: -0.25),
-                                      ))),
-                            )
-                          ]),
+                          ),
+                          backgroundColor: kprimaryColor,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: kprimaryColor,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(18))),
+                        width: width * 0.91,
+                        height: height * 0.15,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Flexible(
+                                flex: 1,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${controller.args.firstName}',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 26,
+                                        letterSpacing: -0.25,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${controller.args.lastName}',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 26,
+                                        letterSpacing: -0.25,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Flexible(
+                                flex: 2,
+                                child: Container(
+                                    margin: EdgeInsets.only(left: 41),
+                                    padding: EdgeInsets.fromLTRB(7, 7, 7, 7),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black, width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12))),
+                                    child: GestureDetector(
+                                        onTap: () async {
+                                          await Clipboard.setData(ClipboardData(
+                                              text: controller.args.bucketId));
+                                          Get.snackbar(
+                                            'Success!',
+                                            'Copied Bucket ID!',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor: ksecondaryColor,
+                                            borderRadius: 20,
+                                            margin: EdgeInsets.all(15),
+                                            colorText: Colors.black,
+                                            duration: Duration(seconds: 4),
+                                            isDismissible: true,
+                                            dismissDirection:
+                                                DismissDirection.horizontal,
+                                            forwardAnimationCurve:
+                                                Curves.easeOutBack,
+                                          );
+                                        },
+                                        onLongPress: () async {
+                                          await Clipboard.setData(ClipboardData(
+                                              text: controller.args.bucketId));
+                                          Get.snackbar(
+                                            'Success!',
+                                            'Copied Bucket ID!',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor: ksecondaryColor,
+                                            borderRadius: 20,
+                                            margin: EdgeInsets.all(15),
+                                            colorText: Colors.black,
+                                            duration: Duration(seconds: 4),
+                                            isDismissible: true,
+                                            dismissDirection:
+                                                DismissDirection.horizontal,
+                                            forwardAnimationCurve:
+                                                Curves.easeOutBack,
+                                          );
+                                        },
+                                        child: Text(
+                                          '${controller.args.bucketId}',
+                                          style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w700,
+                                              letterSpacing: -0.25),
+                                        ))),
+                              )
+                            ]),
+                      ),
                     )),
                     SizedBox(
                       height: height * 0.03,
