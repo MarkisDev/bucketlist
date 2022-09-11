@@ -19,6 +19,7 @@ dependencies:
   rxdart: ^0.27.5
   animated_floating_buttons: ^0.0.2
   flutter_quill: ^5.4.1
+  timeago_flutter: ^1.2.0
   flutter:
     sdk: flutter
 
