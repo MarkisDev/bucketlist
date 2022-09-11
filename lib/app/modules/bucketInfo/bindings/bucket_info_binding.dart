@@ -7,7 +7,7 @@ class BucketInfoBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<BucketInfoController>(
-        () => BucketInfoController(repository: BucketRepository()),
-        fenix: true);
+      () => BucketInfoController(repository: BucketRepository()),
+    );
   }
 }
