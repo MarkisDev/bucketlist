@@ -140,16 +140,14 @@ class BucketInfoView extends GetView<BucketInfoController> {
                         if (!controller.entries[_]['mutexInfo']['lock']) {
                           var userModel = controller.userModel;
                           var data = {
-                            "mutexInfo": {
-                              "lock": true,
-                              "id": userModel.id,
-                              "fullName": userModel.fullName,
-                              "firstName": userModel.firstName,
-                              "lastName": userModel.lastName,
-                              "email": userModel.email,
-                            },
+                            "lock": true,
+                            "id": userModel.id,
+                            "fullName": userModel.fullName,
+                            "firstName": userModel.firstName,
+                            "lastName": userModel.lastName,
+                            "email": userModel.email,
                           };
-                          RealtimeDb.updateBucketEntry(
+                          controller.repository.updateBucketMutex(
                               controller.bucketModel.bucketId,
                               data,
                               controller.entries[_]['entryId']);
@@ -268,14 +266,17 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                                             18.0),
                                                     side: BorderSide(
                                                         color: Colors.black)))),
-                                        onPressed: () {
-                                          controller.repository
+                                        onPressed: () async {
+                                          await controller.repository
                                               .deleteBucketEntry(
                                                   controller
                                                       .bucketModel.bucketId,
                                                   controller.entries[_]
-                                                      ['entryId']);
-                                          Get.back();
+                                                      ['entryId'],
+                                                  controller.entries[_]
+                                                      ['creatorInfo']['id']);
+                                          Get.closeAllSnackbars();
+                                          Get.close(1);
                                           Get.snackbar(
                                             'Deleted!',
                                             'Deleted the entry!',
@@ -349,7 +350,7 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "${controller.entries[_]['title']}",
+                                          "${controller.entries[_]['entryInfo']['title']}",
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: Colors.white,
@@ -361,7 +362,7 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                           padding:
                                               const EdgeInsets.only(top: 10.0),
                                           child: Text(
-                                            '${controller.entries[_]['title']}',
+                                            '${controller.entries[_]['entryInfo']['title']}',
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.white,
