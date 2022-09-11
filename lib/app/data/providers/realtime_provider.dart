@@ -18,16 +18,6 @@ class RealtimeDb {
     return snapshot.value;
   }
 
-  static checkUserBucketId(String userId, String bucketId) async {
-    var snapshot =
-        await _database.ref().child('users/${userId}/bucketId').get();
-    if (snapshot.value == bucketId) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   static getUser(String uid) async {
     var snapshot = await _database.ref().child('users/${uid}').get();
     return snapshot;
