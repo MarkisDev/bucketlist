@@ -160,7 +160,7 @@ class RealtimeDb {
     });
 
     await _database
-        .ref("buckets/${bucketId}/members/${userId}/numberEntries")
+        .ref("buckets/${bucketId}/members/${userId}/entries")
         .runTransaction((var value) {
       int x = value as int;
       x -= 1;
