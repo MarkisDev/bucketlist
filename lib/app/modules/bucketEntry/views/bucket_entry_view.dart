@@ -42,6 +42,9 @@ class BucketEntryView extends GetView<BucketEntryController> {
               children: [
                 TextButton(
                     onPressed: () {
+                      if (controller.bucketController.newEntry) {
+                        Get.back();
+                      }
                       controller.addOrUpdateBucketEntry();
                     },
                     child: Padding(
