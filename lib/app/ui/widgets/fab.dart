@@ -134,7 +134,7 @@ Widget addBucketFab(var controller) {
                       },
                       bucketId: controller.newBucketId.value,
                       totalEntries: 0,
-                      private: true);
+                      private: false);
 
                   if (await controller.repository.addBucket(bucketModel)) {
                     // Registering new bucket to user
@@ -261,36 +261,99 @@ Widget joinBucketFab(var controller) {
               onPressed: () async {
                 if (await controller.repository
                     .checkBucket(controller.bucketIdController.text)) {
-                  if (await controller.repository.registerBucket(
-                      controller.args, controller.bucketIdController.text)) {
-                    Get.snackbar(
-                      'Success!',
-                      'Added new bucket!',
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: ksecondaryColor,
-                      borderRadius: 20,
-                      margin: EdgeInsets.all(15),
-                      colorText: Colors.black,
-                      duration: Duration(seconds: 4),
-                      isDismissible: true,
-                      dismissDirection: DismissDirection.horizontal,
-                      forwardAnimationCurve: Curves.easeOutBack,
-                    );
-                    // Get.back();
+                  if (await controller.repository
+                      .checkBucketPrivate(controller.bucketIdController.text)) {
+                    Get.defaultDialog(
+                        title: "Error!",
+                        titlePadding: EdgeInsets.fromLTRB(0, 21, 0, 0),
+                        backgroundColor: kprimaryColor,
+                        titleStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 23,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500),
+                        contentPadding: EdgeInsets.all(21),
+                        content: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "You cannot join a private bucket!",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  TextButton(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      child: Text(
+                                        "Okay!",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontFamily: 'Raleway'),
+                                      ),
+                                    ),
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                ksecondaryBackgroundColor),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                                side: BorderSide(
+                                                    color: Colors.black)))),
+                                    onPressed: () async {
+                                      Get.back();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ));
                   } else {
-                    Get.snackbar(
-                      'Error!',
-                      'Already part of bucket!',
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: Colors.red,
-                      borderRadius: 20,
-                      margin: EdgeInsets.all(15),
-                      colorText: Colors.black,
-                      duration: Duration(seconds: 4),
-                      isDismissible: true,
-                      dismissDirection: DismissDirection.horizontal,
-                      forwardAnimationCurve: Curves.easeOutBack,
-                    );
+                    if (await controller.repository.registerBucket(
+                        controller.args, controller.bucketIdController.text)) {
+                      Get.snackbar(
+                        'Success!',
+                        'Added new bucket!',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: ksecondaryColor,
+                        borderRadius: 20,
+                        margin: EdgeInsets.all(15),
+                        colorText: Colors.black,
+                        duration: Duration(seconds: 4),
+                        isDismissible: true,
+                        dismissDirection: DismissDirection.horizontal,
+                        forwardAnimationCurve: Curves.easeOutBack,
+                      );
+                      // Get.back();
+                    } else {
+                      Get.snackbar(
+                        'Error!',
+                        'Already part of bucket!',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.red,
+                        borderRadius: 20,
+                        margin: EdgeInsets.all(15),
+                        colorText: Colors.black,
+                        duration: Duration(seconds: 4),
+                        isDismissible: true,
+                        dismissDirection: DismissDirection.horizontal,
+                        forwardAnimationCurve: Curves.easeOutBack,
+                      );
+                    }
                   }
                 } else {
                   Get.snackbar(
