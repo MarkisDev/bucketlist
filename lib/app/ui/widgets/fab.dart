@@ -140,6 +140,7 @@ Widget addBucketFab(var controller) {
                     // Registering new bucket to user
                     controller.repository
                         .registerBucket(userModel, bucketModel.bucketId);
+                    Get.back();
                     Get.snackbar(
                       'Success!',
                       'Created new bucket!',
@@ -331,6 +332,8 @@ Widget joinBucketFab(var controller) {
                   } else {
                     if (await controller.repository.registerBucket(
                         controller.args, controller.bucketIdController.text)) {
+                      Get.back();
+
                       Get.snackbar(
                         'Success!',
                         'Added new bucket!',
