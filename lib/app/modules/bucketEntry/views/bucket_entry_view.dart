@@ -60,6 +60,8 @@ class BucketEntryView extends GetView<BucketEntryController> {
                       ),
                     ),
                     style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.white.withOpacity(0.15)),
                         backgroundColor: MaterialStateProperty.all(
                             ksecondaryBackgroundColor),
                         shape:
@@ -84,6 +86,8 @@ class BucketEntryView extends GetView<BucketEntryController> {
                       ),
                     ),
                     style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.white.withOpacity(0.15)),
                         backgroundColor: MaterialStateProperty.all(
                             ksecondaryBackgroundColor),
                         shape:

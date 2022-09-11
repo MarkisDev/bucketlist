@@ -194,6 +194,8 @@ Widget addBucketFab(var controller) {
                 ),
               ),
               style: ButtonStyle(
+                  overlayColor:
+                      MaterialStateProperty.all(Colors.white.withOpacity(0.15)),
                   backgroundColor:
                       MaterialStateProperty.all(ksecondaryBackgroundColor),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -213,6 +215,8 @@ Widget addBucketFab(var controller) {
                 fontWeight: FontWeight.w500,
                 color: Colors.black))),
     style: ButtonStyle(
+        overlayColor: MaterialStateProperty.all(
+            ksecondaryBackgroundColor.withOpacity(0.2)),
         backgroundColor: MaterialStateProperty.all(kprimaryColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
@@ -303,6 +307,8 @@ Widget joinBucketFab(var controller) {
                                       ),
                                     ),
                                     style: ButtonStyle(
+                                        overlayColor: MaterialStateProperty.all(
+                                            Colors.white.withOpacity(0.15)),
                                         backgroundColor:
                                             MaterialStateProperty.all(
                                                 ksecondaryBackgroundColor),
@@ -380,6 +386,8 @@ Widget joinBucketFab(var controller) {
                 ),
               ),
               style: ButtonStyle(
+                  overlayColor:
+                      MaterialStateProperty.all(Colors.white.withOpacity(0.15)),
                   backgroundColor:
                       MaterialStateProperty.all(ksecondaryBackgroundColor),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -398,6 +406,8 @@ Widget joinBucketFab(var controller) {
               fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black)),
     ),
     style: ButtonStyle(
+        overlayColor: MaterialStateProperty.all(
+            ksecondaryBackgroundColor.withOpacity(0.2)),
         backgroundColor: MaterialStateProperty.all(kprimaryColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(

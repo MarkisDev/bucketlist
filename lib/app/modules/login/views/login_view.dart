@@ -49,6 +49,8 @@ class LoginView extends GetView<LoginController> {
                       controller.loginWithGoogle();
                     },
                     style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.white.withOpacity(0.15)),
                         padding: MaterialStateProperty.all(EdgeInsets.all(15)),
                         backgroundColor: MaterialStateProperty.all(
                             ksecondaryBackgroundColor),

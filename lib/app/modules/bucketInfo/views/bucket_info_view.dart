@@ -197,6 +197,8 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                         ),
                                       ),
                                       style: ButtonStyle(
+                                          overlayColor: MaterialStateProperty.all(
+                                              Colors.white.withOpacity(0.15)),
                                           backgroundColor:
                                               MaterialStateProperty.all(
                                                   ksecondaryBackgroundColor),
@@ -258,6 +260,8 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                           ),
                                         ),
                                         style: ButtonStyle(
+                                            overlayColor: MaterialStateProperty.all(
+                                                Colors.white.withOpacity(0.15)),
                                             backgroundColor:
                                                 MaterialStateProperty.all(
                                                     ksecondaryBackgroundColor),
@@ -310,6 +314,8 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                           ),
                                         ),
                                         style: ButtonStyle(
+                                            overlayColor: MaterialStateProperty.all(
+                                                Colors.white.withOpacity(0.15)),
                                             backgroundColor:
                                                 MaterialStateProperty.all(
                                                     ksecondaryBackgroundColor),
@@ -320,8 +326,7 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                                         BorderRadius.circular(
                                                             18.0),
                                                     side: BorderSide(
-                                                        color:
-                                                            kprimaryBackgroundColor)))),
+                                                        color: kprimaryBackgroundColor)))),
                                         onPressed: () {
                                           Get.back();
                                         },
