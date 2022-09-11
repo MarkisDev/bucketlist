@@ -295,8 +295,8 @@ class HomeView extends GetView<HomeController> {
                             arguments: controller.bucketList[_]);
                       },
                       onLongPress: () {
-                        RealtimeDb.deleteBucket(
-                            controller.bucketList[_].bucketId);
+                        controller.repository
+                            .deleteBucket(controller.bucketList[_].bucketId);
                       },
                       child: Center(
                         child: Container(
