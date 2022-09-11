@@ -10,16 +10,25 @@ class BucketRepository {
     var bucketSnapshot = RealtimeDb.getBucketInfo(bucketId);
     return bucketSnapshot.map((DatabaseEvent event) {
       List entries = [];
-
-      Map bucket = Map.of(event.snapshot.value as Map);
-      if (bucket.containsKey('entries') && bucket['entries'].length > 0) {
-        for (final key in bucket['entries'].keys) {
-          Map data = bucket['entries'][key];
-          data['entryId'] = key;
-          entries.add(bucket['entries'][key]);
+      if (event.snapshot.value != null) {
+        Map bucket = Map.of(event.snapshot.value as Map);
+        if (bucket.containsKey('entries') && bucket['entries'].length > 0) {
+          for (final key in bucket['entries'].keys) {
+            Map data = bucket['entries'][key];
+            data['entryId'] = key;
+            entries.add(bucket['entries'][key]);
+          }
         }
       }
       return entries;
+    });
+  }
+
+  criticalBucketInfoChanged(String bucketId) {
+    var bucketSnapshot = RealtimeDb.getBucketInfo(bucketId);
+
+    return bucketSnapshot.map((event) {
+      return !event.snapshot.exists;
     });
   }
 
