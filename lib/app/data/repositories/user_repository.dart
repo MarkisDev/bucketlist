@@ -21,6 +21,10 @@ class UserRepository {
     return await RealtimeDb.checkBucket(bucketId);
   }
 
+  checkBucketPrivate(String bucketId) async {
+    return await RealtimeDb.checkBucketPrivate(bucketId);
+  }
+
   registerBucket(UserModel userModel, String bucketId) async {
     return await RealtimeDb.registerBucket(userModel, bucketId);
   }
@@ -36,10 +40,13 @@ class UserRepository {
       for (var userBucket in bucketEntries) {
         var x = RealtimeDb.getBucketInfo(userBucket);
         var t = x.map((DatabaseEvent test) {
-          var userSnapshot = Map.of(test.snapshot.value as Map);
-          BucketModel bucketModel =
-              BucketModel.fromdataSnapshot(dataSnapshot: userSnapshot);
-          return bucketModel;
+          if (test.snapshot.exists) {
+            var userSnapshot = Map.of(test.snapshot.value as Map);
+
+            BucketModel bucketModel =
+                BucketModel.fromdataSnapshot(dataSnapshot: userSnapshot);
+            return bucketModel;
+          }
         });
         temp.add(t);
       }
