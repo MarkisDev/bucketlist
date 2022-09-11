@@ -132,6 +132,162 @@ class HomeView extends GetView<HomeController> {
                   itemCount: controller.bucketList.length,
                   footer: SizedBox(height: height * 0.02),
                   itemBuilder: (context, _, item) {
+                    if (controller.args.bucketId ==
+                        controller.bucketList[_].bucketId) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed('bucket-info',
+                              arguments: controller.bucketList[_]);
+                        },
+                        child: Center(
+                          child: Container(
+                            width: width * 0.91,
+                            height: height * 0.10,
+                            decoration: BoxDecoration(
+                                color: ksecondaryBackgroundColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(18))),
+                            child: ClipRect(
+                              child: Banner(
+                                message: "private",
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'poppins',
+                                    letterSpacing: -0.5,
+                                    fontSize: 14),
+                                location: BannerLocation.topEnd,
+                                color: kprimaryColor,
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Flexible(
+                                        flex: 3,
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${controller.bucketList[_].creatorInfo['fullName']}",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                    fontFamily: 'Raleway',
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: -0.25),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0),
+                                                child: Text(
+                                                  '${controller.bucketList[_].bucketId}',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                      fontFamily: 'Raleway',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      letterSpacing: 0.15),
+                                                ),
+                                              ),
+                                            ]),
+                                      ),
+                                      Flexible(
+                                        flex: 3,
+                                        child: Transform.rotate(
+                                          angle: 30 * math.pi / 180,
+                                          child: VerticalDivider(
+                                            color: kprimaryColor,
+                                            thickness: 3.5,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${controller.bucketList[_].totalEntries}',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 23,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        onLongPress: () {
+                          Get.defaultDialog(
+                              title: "Error!",
+                              titlePadding: EdgeInsets.fromLTRB(0, 21, 0, 0),
+                              backgroundColor: kprimaryColor,
+                              titleStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 23,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500),
+                              contentPadding: EdgeInsets.all(21),
+                              content: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "You cannot delete your private bucket!",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 12.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        TextButton(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20.0),
+                                            child: Text(
+                                              "Okay!",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontFamily: 'Raleway'),
+                                            ),
+                                          ),
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      ksecondaryBackgroundColor),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              18.0),
+                                                      side: BorderSide(
+                                                          color:
+                                                              Colors.black)))),
+                                          onPressed: () async {
+                                            Get.back();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ));
+                        },
+                      );
+                    }
                     return GestureDetector(
                       onTap: () {
                         Get.toNamed('bucket-info',
