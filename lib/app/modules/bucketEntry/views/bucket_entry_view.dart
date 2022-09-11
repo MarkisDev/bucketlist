@@ -14,6 +14,7 @@ class BucketEntryView extends GetView<BucketEntryController> {
     return Scaffold(
       appBar: kappBar,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           quill.QuillToolbar.basic(
             controller: controller.quillController,
@@ -21,17 +22,78 @@ class BucketEntryView extends GetView<BucketEntryController> {
                 iconSelectedColor: Colors.black,
                 iconSelectedFillColor: kprimaryColor),
           ),
-          TextField(
-            controller: controller.titleController,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey)),
-              border: OutlineInputBorder(),
-              hintText: 'Click here to enter a title!',
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            Expanded(
+              child: TextField(
+                controller: controller.titleController,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey)),
+                  border: OutlineInputBorder(),
+                  hintText: 'Click here to enter a title!',
+                ),
+              ),
             ),
-          ),
+            Expanded(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      controller.addOrUpdateBucketEntry();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                      ),
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: 'Raleway'),
+                      ),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            ksecondaryBackgroundColor),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    side: BorderSide(color: Colors.black))))),
+                TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                      ),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: 'Raleway'),
+                      ),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            ksecondaryBackgroundColor),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    side: BorderSide(color: Colors.black))))),
+              ],
+            ))
+          ]),
+
+          // TextButton(onPressed: () {}, child: Text("Save!")),
+
           Expanded(
               child: Container(
             color: Colors.white,
