@@ -320,6 +320,8 @@ class HomeView extends GetView<HomeController> {
                                             ),
                                           ),
                                           style: ButtonStyle(
+                                            overlayColor: MaterialStateProperty.all(
+                                                      Colors.white.withOpacity(0.15)),
                                               backgroundColor:
                                                   MaterialStateProperty.all(
                                                       ksecondaryBackgroundColor),
