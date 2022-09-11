@@ -46,21 +46,4 @@ class UserRepository {
       return temp;
     });
   }
-
-  getBucketEntries(String bucketId) {
-    var bucketSnapshot = RealtimeDb.getBucketInfo(bucketId);
-    return bucketSnapshot.map((DatabaseEvent event) {
-      List entries = [];
-
-      Map bucket = Map.of(event.snapshot.value as Map);
-      if (bucket.containsKey('entries')) {
-        for (final key in bucket['entries'].keys) {
-          Map data = bucket['entries'][key];
-          data['entryId'] = key;
-          entries.add(bucket['entries'][key]);
-        }
-      }
-      return entries;
-    });
-  }
 }
