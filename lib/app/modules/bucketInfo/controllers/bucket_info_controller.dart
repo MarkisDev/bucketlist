@@ -1,12 +1,13 @@
 import 'package:bucketlist/app/data/models/user_model.dart';
 import 'package:bucketlist/app/data/providers/realtime_provider.dart';
+import 'package:bucketlist/app/data/repositories/bucket_repository.dart';
 import 'package:bucketlist/app/data/repositories/user_repository.dart';
 import 'package:bucketlist/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 class BucketInfoController extends GetxController {
   var bucketModel = Get.arguments;
-  final UserRepository repository;
+  final BucketRepository repository;
   late final UserModel userModel;
   BucketInfoController({required this.repository});
   var newEntry = true;
