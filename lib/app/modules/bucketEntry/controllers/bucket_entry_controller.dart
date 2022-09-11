@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bucketlist/app/data/providers/realtime_provider.dart';
@@ -19,7 +20,7 @@ class BucketEntryController extends GetxController {
   final userModel = Get.arguments['userModel'];
   late final bucketData;
   var criticalInfoChanged = false.obs;
-
+  late StreamSubscription criticalInfoSub;
   @override
   void onInit() {
     super.onInit();
@@ -27,7 +28,7 @@ class BucketEntryController extends GetxController {
     criticalInfoChanged
         .bindStream(repository.criticalBucketInfoChanged(bucketModel.bucketId));
     // Listening to changes and deleting
-    criticalInfoChanged.listen((p0) {
+    criticalInfoSub = criticalInfoChanged.listen((p0) {
       if (p0) {
         Get.defaultDialog(
             title: "Error!",
@@ -107,7 +108,9 @@ class BucketEntryController extends GetxController {
   }
 
   @override
-  void onClose() {
+  void onClose() async {
+    await criticalInfoSub.cancel();
+
     if (!bucketController.newEntry) {
       var mutex = {
         "lock": false,
