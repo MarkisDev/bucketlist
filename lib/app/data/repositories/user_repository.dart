@@ -53,4 +53,8 @@ class UserRepository {
       return temp;
     });
   }
+
+  deleteBucket(String bucketId) {
+    RealtimeDb.deleteBucket(bucketId);
+  }
 }
