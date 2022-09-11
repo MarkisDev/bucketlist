@@ -216,6 +216,118 @@ class BucketInfoView extends GetView<BucketInfoController> {
                               ));
                         }
                       },
+                      onLongPress: () {
+                        Get.defaultDialog(
+                            title: "Are you sure?",
+                            titlePadding: EdgeInsets.fromLTRB(0, 21, 0, 0),
+                            backgroundColor: kprimaryColor,
+                            titleStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 23,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500),
+                            contentPadding: EdgeInsets.all(21),
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "This will delete this entry and is irreversible!",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      TextButton(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Text(
+                                            "Delete",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontFamily: 'Raleway'),
+                                          ),
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    ksecondaryBackgroundColor),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0),
+                                                    side: BorderSide(
+                                                        color: Colors.black)))),
+                                        onPressed: () {
+                                          controller.repository
+                                              .deleteBucketEntry(
+                                                  controller
+                                                      .bucketModel.bucketId,
+                                                  controller.entries[_]
+                                                      ['entryId']);
+                                          Get.back();
+                                          Get.snackbar(
+                                            'Deleted!',
+                                            'Deleted the entry!',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor: Colors.red,
+                                            borderRadius: 20,
+                                            margin: EdgeInsets.all(15),
+                                            colorText: Colors.black,
+                                            duration: Duration(seconds: 4),
+                                            isDismissible: true,
+                                            dismissDirection:
+                                                DismissDirection.horizontal,
+                                            forwardAnimationCurve:
+                                                Curves.easeOutBack,
+                                          );
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Text(
+                                            "Go back",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontFamily: 'Raleway'),
+                                          ),
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    ksecondaryBackgroundColor),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0),
+                                                    side: BorderSide(
+                                                        color:
+                                                            kprimaryBackgroundColor)))),
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ));
+                      },
                       child: Center(
                         child: Container(
                           width: width * 0.91,
