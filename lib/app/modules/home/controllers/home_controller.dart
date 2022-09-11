@@ -31,22 +31,25 @@ class HomeController extends GetxController {
       userBucketsStream.forEach((bucketStream) {
         StreamSubscription x = bucketStream.listen(
           (bucket) {
-            // Checking if an item was REMOVED from the bucket, if yes then fully clearing it and then adding everything again.
-            if (bucketList.length > userBucketsStream.length) {
-              bucketList.clear();
-            }
-            // Checking if the element that's being added is not in the list, then adding it.
-            if (!bucketList
-                .any((element) => element.bucketId == bucket.bucketId)) {
-              bucketList.add(bucket);
-            } else {
-              // So the element in list actually exists...but here's the big brain! Since we have a listener for EACH bucket in the userBuckets
-              // A listener is telling us ONE bucket was changed, so we're changing that bucket :) (TOTAL ENTRIES!)
-              // Wish dart had replaceFunc (sigh)
-              var index = bucketList
-                  .indexWhere((element) => element.bucketId == bucket.bucketId);
-              bucketList.removeAt(index);
-              bucketList.insert(index, bucket);
+            // Checking to prevent false addition when bucket is deleted
+            if (bucket != null) {
+              // Checking if an item was REMOVED from the bucket, if yes then fully clearing it and then adding everything again.
+              if (bucketList.length > userBucketsStream.length) {
+                bucketList.clear();
+              }
+              // Checking if the element that's being added is not in the list, then adding it.
+              if (!bucketList
+                  .any((element) => element.bucketId == bucket.bucketId)) {
+                bucketList.add(bucket);
+              } else {
+                // So the element in list actually exists...but here's the big brain! Since we have a listener for EACH bucket in the userBuckets
+                // A listener is telling us ONE bucket was changed, so we're changing that bucket :) (TOTAL ENTRIES!)
+                // Wish dart had replaceFunc (sigh)
+                var index = bucketList.indexWhere(
+                    (element) => element.bucketId == bucket.bucketId);
+                bucketList.removeAt(index);
+                bucketList.insert(index, bucket);
+              }
             }
           },
         );
