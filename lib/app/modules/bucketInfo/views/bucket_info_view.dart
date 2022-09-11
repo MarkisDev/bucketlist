@@ -4,6 +4,7 @@ import 'package:bucketlist/app/ui/widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math' as math;
+import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:get/get.dart';
 import 'package:listview_utils/listview_utils.dart';
@@ -146,6 +147,8 @@ class BucketInfoView extends GetView<BucketInfoController> {
                             "firstName": userModel.firstName,
                             "lastName": userModel.lastName,
                             "email": userModel.email,
+                            "timestamp":
+                                DateTime.now().toUtc().toIso8601String(),
                           };
                           controller.repository.updateBucketMutex(
                               controller.bucketModel.bucketId,
@@ -342,39 +345,17 @@ class BucketInfoView extends GetView<BucketInfoController> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Flexible(
-                                  flex: 3,
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${controller.entries[_]['entryInfo']['title']}",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              fontFamily: 'Raleway',
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing: -0.25),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10.0),
-                                          child: Text(
-                                            '${controller.entries[_]['entryInfo']['title']}',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                fontFamily: 'Raleway',
-                                                fontWeight: FontWeight.w600,
-                                                letterSpacing: 0.15),
-                                          ),
-                                        ),
-                                      ]),
+                                  child: Text(
+                                    '${controller.entries[_]['entryInfo']['title']}',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                    overflow: TextOverflow.fade,
+                                  ),
                                 ),
                                 Flexible(
-                                  flex: 3,
+                                  flex: 1,
                                   child: Transform.rotate(
                                     angle: 30 * math.pi / 180,
                                     child: VerticalDivider(
@@ -384,13 +365,39 @@ class BucketInfoView extends GetView<BucketInfoController> {
                                   ),
                                 ),
                                 Expanded(
-                                  child: Text(
-                                    '0',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${controller.entries[_]['mutexInfo']['firstName']}",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: -0.25),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10.0),
+                                          child: Text(
+                                            timeago.format(DateTime.parse(
+                                                controller.entries[_]
+                                                        ['mutexInfo']
+                                                    ['timestamp'])),
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                                fontFamily: 'Raleway',
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 0.15),
+                                          ),
+                                        ),
+                                      ]),
                                 ),
                               ],
                             ),
