@@ -32,7 +32,7 @@ class BucketEntryView extends GetView<BucketEntryController> {
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey)),
                   border: OutlineInputBorder(),
-                  hintText: 'Click here to enter a title!',
+                  hintText: 'Title goes here...',
                 ),
               ),
             ),
@@ -40,17 +40,15 @@ class BucketEntryView extends GetView<BucketEntryController> {
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                    onPressed: () {
-                      if (controller.bucketController.newEntry) {
-                        Get.back();
-                      }
-                      controller.addOrUpdateBucketEntry();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                      ),
+                SizedBox(
+                  width: Get.width * 0.2,
+                  child: TextButton(
+                      onPressed: () {
+                        if (controller.bucketController.newEntry) {
+                          Get.back();
+                        }
+                        controller.addOrUpdateBucketEntry();
+                      },
                       child: Text(
                         "Save",
                         style: TextStyle(
@@ -58,25 +56,23 @@ class BucketEntryView extends GetView<BucketEntryController> {
                             fontSize: 18,
                             fontFamily: 'Raleway'),
                       ),
-                    ),
-                    style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all(
-                            Colors.white.withOpacity(0.15)),
-                        backgroundColor: MaterialStateProperty.all(
-                            ksecondaryBackgroundColor),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    side: BorderSide(color: Colors.black))))),
-                TextButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                      ),
+                      style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                              Colors.white.withOpacity(0.15)),
+                          backgroundColor: MaterialStateProperty.all(
+                              ksecondaryBackgroundColor),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      side: BorderSide(color: Colors.black))))),
+                ),
+                SizedBox(
+                  width: Get.width * 0.2,
+                  child: TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
                       child: Text(
                         "Cancel",
                         style: TextStyle(
@@ -84,17 +80,17 @@ class BucketEntryView extends GetView<BucketEntryController> {
                             fontSize: 18,
                             fontFamily: 'Raleway'),
                       ),
-                    ),
-                    style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all(
-                            Colors.white.withOpacity(0.15)),
-                        backgroundColor: MaterialStateProperty.all(
-                            ksecondaryBackgroundColor),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    side: BorderSide(color: Colors.black))))),
+                      style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                              Colors.white.withOpacity(0.15)),
+                          backgroundColor: MaterialStateProperty.all(
+                              ksecondaryBackgroundColor),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      side: BorderSide(color: Colors.black))))),
+                ),
               ],
             ))
           ]),
