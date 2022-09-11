@@ -1,5 +1,6 @@
 import 'package:bucketlist/app/data/models/bucket_model.dart';
 import 'package:bucketlist/app/data/models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class RealtimeDb {
@@ -111,7 +112,38 @@ class RealtimeDb {
   }
 
   static updateBucketEntry(String bucketId, Map data, String entryId) {
-    return _database.ref('buckets/${bucketId}/entries').update({entryId: data});
+    return _database.ref('buckets/${bucketId}/entries/${entryId}').update(
+        {'mutexInfo': data['mutexInfo'], 'entryInfo': data['entryInfo']});
+  }
+
+  static updateBucketMutex(String bucketId, Map data, String entryId) {
+    return _database
+        .ref('buckets/${bucketId}/entries/${entryId}')
+        .update({'mutexInfo': data});
+  }
+
+  static deleteBucketEntry(
+      String bucketId, String entryId, String userId) async {
+    await _database
+        .ref("users/${userId}/buckets/${bucketId}")
+        .runTransaction((var value) {
+      int x = value as int;
+      x -= 1;
+
+      return Transaction.success(x);
+    });
+
+    // Update entries in buckets
+    await _database
+        .ref("buckets/${bucketId}/totalEntries")
+        .runTransaction((var value) {
+      int x = value as int;
+      x -= 1;
+
+      return Transaction.success(x);
+    });
+
+    return _database.ref('buckets/${bucketId}/entries/$entryId').remove();
   }
 
   static Stream<DatabaseEvent> getBucketEntries(String bucketId) {
