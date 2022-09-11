@@ -2,8 +2,8 @@ import 'package:bucketlist/app/data/providers/realtime_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class BucketRepository {
-  deleteBucketEntry(String bucketId, String entryId) {
-    RealtimeDb.deleteBucketEntry(bucketId, entryId);
+  deleteBucketEntry(String bucketId, String entryId, String userId) async {
+    await RealtimeDb.deleteBucketEntry(bucketId, entryId, userId);
   }
 
   getBucketEntries(String bucketId) {
@@ -29,5 +29,9 @@ class BucketRepository {
 
   updateBucketEntry(String bucketId, Map data, String entryId) {
     RealtimeDb.updateBucketEntry(bucketId, data, entryId);
+  }
+
+  updateBucketMutex(String bucketId, Map data, String entryId) {
+    RealtimeDb.updateBucketMutex(bucketId, data, entryId);
   }
 }
