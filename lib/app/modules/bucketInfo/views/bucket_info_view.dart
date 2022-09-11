@@ -40,7 +40,7 @@ class BucketInfoView extends GetView<BucketInfoController> {
         Obx(
           () => Expanded(
             child: GlowingOverscrollIndicator(
-                color: ksecondaryColor,
+                color: Colors.lightGreen,
                 axisDirection: AxisDirection.down,
                 child: CustomListView(
                   header: Column(children: [
