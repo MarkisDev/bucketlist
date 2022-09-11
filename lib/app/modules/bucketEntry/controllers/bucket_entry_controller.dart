@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bucketlist/app/data/providers/realtime_provider.dart';
+import 'package:bucketlist/app/data/repositories/bucket_repository.dart';
 import 'package:bucketlist/app/modules/bucketInfo/controllers/bucket_info_controller.dart';
 import 'package:bucketlist/app/ui/theme/color_theme.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 
 class BucketEntryController extends GetxController {
+  BucketEntryController({required this.repository});
+  final BucketRepository repository;
   late QuillController quillController;
   final titleController = TextEditingController();
   final count = 0.obs;
@@ -36,7 +39,9 @@ class BucketEntryController extends GetxController {
   }
 
   @override
-  void onClose() {
+  void onClose() {}
+
+  addOrUpdateBucketEntry() {
     var bucketController = Get.find<BucketInfoController>();
 
     var json = jsonEncode(quillController.document.toDelta().toJson());
