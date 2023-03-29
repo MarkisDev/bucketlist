@@ -78,8 +78,7 @@ class BucketEntryController extends GetxController {
                                     borderRadius: BorderRadius.circular(18.0),
                                     side: BorderSide(color: Colors.black)))),
                         onPressed: () async {
-                          Get.offNamedUntil('/home', (route) => false,
-                              arguments: userModel);
+                          Get.toNamed('/home', arguments: userModel);
                         },
                       ),
                     ],

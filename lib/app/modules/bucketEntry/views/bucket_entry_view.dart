@@ -2,7 +2,6 @@ import 'package:bucketlist/app/ui/theme/color_theme.dart';
 import 'package:bucketlist/app/ui/widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:tuple/tuple.dart';
 
 import 'package:get/get.dart';
 

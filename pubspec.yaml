@@ -6,19 +6,20 @@ environment:
   sdk: ">=2.16.2 <3.0.0"
 
 dependencies:
-  google_sign_in: ^5.4.0
+  firebase_core_platform_interface: ^4.5.3
+  google_sign_in: ^6.0.2
   listview_utils: ^1.0.0-nullsafety
   flutter_signin_button: ^2.0.0
   cupertino_icons: ^1.0.2
   get: 4.6.5
   blobs: ^2.0.0
-  firebase_database: 9.0.20
-  firebase_core: ^1.20.0
-  firebase_auth: ^3.6.1
+  firebase_database: ^10.0.16
+  firebase_core: ^2.8.0
+  firebase_auth: ^4.3.0
   nanoid: ^1.0.0
   rxdart: ^0.27.5
   animated_floating_buttons: ^0.0.2
-  flutter_quill: ^5.4.1
+  flutter_quill: ^7.0.2
   timeago_flutter: ^1.2.0
   flutter:
     sdk: flutter
@@ -27,7 +28,11 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: ^0.12.0
+flutter_icons:
+  android: "launcher_icon"
+  image_path: "assets/images/icon.jpg"
+  min_sdk_android: 30
 flutter:
   fonts:
     - family: Poppins

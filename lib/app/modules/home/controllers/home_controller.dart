@@ -25,6 +25,7 @@ class HomeController extends GetxController {
     super.onInit();
     // Binding to a streams list which holds a stream instance for each bucket.
     // bucketsStream returns a list of stream for each bucket. Since we're using bind, we are mapping and returning the stream. check func.
+
     streams.bindStream(repository.bucketStream(args.id));
     // Listening to changes in the total streams (addition/deletion of buckets)
     streams.listen((List userBucketsStream) {
