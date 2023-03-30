@@ -8,10 +8,10 @@ class HomeBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<HomeController>(
-      () => HomeController(repository: UserRepository()),
+      () => HomeController(),
     );
     Get.lazyPut<LoginController>(
-      () => LoginController(repository: UserRepository()),
+      () => LoginController(),
     );
   }
 }
