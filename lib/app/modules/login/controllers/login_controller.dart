@@ -1,5 +1,6 @@
 import 'package:bucketlist/app/data/models/bucket_model.dart';
 import 'package:bucketlist/app/data/models/user_model.dart';
+import 'package:bucketlist/app/data/providers/firestore_provider.dart';
 import 'package:bucketlist/app/data/providers/realtime_provider.dart';
 import 'package:bucketlist/app/data/repositories/user_repository.dart';
 import 'package:get/get.dart';
@@ -7,8 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nanoid/async.dart';
 
 class LoginController extends GetxController {
-  final UserRepository repository;
-  LoginController({required this.repository});
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   late UserModel userModel;
   late GoogleSignInAccount? googleSignInAccount;
@@ -57,7 +56,7 @@ class LoginController extends GetxController {
       }
       String firstName = parts[0].toLowerCase().capitalizeFirst.toString();
 
-      var userSnapshot = await repository.getuser(googleSignInAccount!.id);
+      var userSnapshot = await FirestoreDb.getUser(googleSignInAccount!.id);
 
       if (!userSnapshot.exists) {
         String bucketId = await BucketModel.genId();
@@ -69,10 +68,10 @@ class LoginController extends GetxController {
             id: googleSignInAccount!.id,
             photoUrl: googleSignInAccount!.photoUrl.toString(),
             bucketId: bucketId);
-        await repository.addUser(userModel);
+        await FirestoreDb.addUser(userModel);
       } else {
         userModel =
-            UserModel.fromdataSnapshot(dataSnapshot: userSnapshot.value);
+            UserModel.fromDocumentSnapshot(documentSnapshot: userSnapshot);
       }
 
       await Get.offNamed('/home', arguments: userModel);
