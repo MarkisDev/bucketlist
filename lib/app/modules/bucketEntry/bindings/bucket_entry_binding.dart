@@ -1,4 +1,3 @@
-import 'package:bucketlist/app/data/repositories/bucket_repository.dart';
 import 'package:get/get.dart';
 
 import '../controllers/bucket_entry_controller.dart';

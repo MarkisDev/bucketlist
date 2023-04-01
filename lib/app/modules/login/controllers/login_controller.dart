@@ -1,8 +1,6 @@
 import 'package:bucketlist/app/data/models/bucket_model.dart';
 import 'package:bucketlist/app/data/models/user_model.dart';
 import 'package:bucketlist/app/data/providers/firestore_provider.dart';
-import 'package:bucketlist/app/data/providers/realtime_provider.dart';
-import 'package:bucketlist/app/data/repositories/user_repository.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nanoid/async.dart';

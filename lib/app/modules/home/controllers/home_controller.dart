@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:bucketlist/app/data/models/bucket_model.dart';
-import 'package:bucketlist/app/data/repositories/user_repository.dart';
 import 'package:bucketlist/app/modules/login/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
