@@ -25,7 +25,7 @@ class BucketEntryView extends GetView<BucketEntryController> {
             Expanded(
               child: TextField(
                 controller: controller.titleController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey)),
                   focusedBorder: OutlineInputBorder(
@@ -43,18 +43,8 @@ class BucketEntryView extends GetView<BucketEntryController> {
                   width: Get.width * 0.2,
                   child: TextButton(
                       onPressed: () {
-                        if (controller.bucketController.newEntry) {
-                          Get.back();
-                        }
                         controller.addOrUpdateBucketEntry();
                       },
-                      child: Text(
-                        "Save",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: 'Raleway'),
-                      ),
                       style: ButtonStyle(
                           overlayColor: MaterialStateProperty.all(
                               Colors.white.withOpacity(0.15)),
@@ -64,7 +54,15 @@ class BucketEntryView extends GetView<BucketEntryController> {
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      side: BorderSide(color: Colors.black))))),
+                                      side: const BorderSide(
+                                          color: Colors.black)))),
+                      child: const Text(
+                        "Save",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: 'Raleway'),
+                      )),
                 ),
                 SizedBox(
                   width: Get.width * 0.2,
@@ -72,13 +70,6 @@ class BucketEntryView extends GetView<BucketEntryController> {
                       onPressed: () {
                         Get.back();
                       },
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: 'Raleway'),
-                      ),
                       style: ButtonStyle(
                           overlayColor: MaterialStateProperty.all(
                               Colors.white.withOpacity(0.15)),
@@ -88,14 +79,19 @@ class BucketEntryView extends GetView<BucketEntryController> {
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      side: BorderSide(color: Colors.black))))),
+                                      side: const BorderSide(
+                                          color: Colors.black)))),
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: 'Raleway'),
+                      )),
                 ),
               ],
             ))
           ]),
-
-          // TextButton(onPressed: () {}, child: Text("Save!")),
-
           Expanded(
               child: Container(
             color: Colors.white,
@@ -108,25 +104,7 @@ class BucketEntryView extends GetView<BucketEntryController> {
               readOnly: false,
               placeholder: 'Add content',
               expands: false,
-              padding: EdgeInsets.all(18),
-              // customStyles: quill.DefaultStyles(
-              //   paragraph: quill.DefaultTextBlockStyle(
-              //       const TextStyle(
-              //         fontSize: 18,
-              //         color: Colors.white,
-              //         fontWeight: FontWeight.w300,
-              //       ),
-              //       const Tuple2(0, 0),
-              //       const Tuple2(0, 0),
-              //       null),
-              //   h1: quill.DefaultTextBlockStyle(
-              //       const TextStyle(
-              //         color: Colors.white,
-              //       ),
-              //       const Tuple2(0, 0),
-              //       const Tuple2(0, 0),
-              //       null),
-              // ),
+              padding: const EdgeInsets.all(18),
             ),
           ))
         ],
