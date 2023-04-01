@@ -7,7 +7,7 @@ class BucketEntryBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<BucketEntryController>(
-      () => BucketEntryController(repository: BucketRepository()),
+      () => BucketEntryController(),
     );
   }
 }
