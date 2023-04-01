@@ -1,53 +1,53 @@
 import 'dart:async';
 
+import 'package:bucketlist/app/data/models/bucket_entries_model.dart';
+import 'package:bucketlist/app/data/models/bucket_model.dart';
 import 'package:bucketlist/app/data/models/user_model.dart';
+import 'package:bucketlist/app/data/providers/firestore_provider.dart';
 import 'package:bucketlist/app/data/providers/realtime_provider.dart';
 import 'package:bucketlist/app/data/repositories/bucket_repository.dart';
 import 'package:bucketlist/app/data/repositories/user_repository.dart';
 import 'package:bucketlist/app/modules/home/controllers/home_controller.dart';
 import 'package:bucketlist/app/ui/theme/color_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BucketInfoController extends GetxController {
-  var bucketModel = Get.arguments;
-  final BucketRepository repository;
+  BucketModel bucketModel = Get.arguments;
   late final UserModel userModel;
-  BucketInfoController({required this.repository});
   var newEntry = true;
-  var entries = [].obs;
-  var criticalInfoChanged = false.obs;
-  late StreamSubscription criticalInfoSub;
+  final entries = <BucketEntriesModel>[].obs;
+  // var criticalInfoChanged = false.obs;
+  late Stream<DocumentSnapshot> bucketStream;
+  late StreamSubscription bucketStreamSub;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+
     HomeController homeController = Get.find<HomeController>();
     userModel = homeController.args;
-    // var x = repository.getBucketEntries(bucketModel.bucketId).listen((event) {
-    //   entries.value = event;
-    // });
-    entries.bindStream(repository.getBucketEntries(bucketModel.bucketId));
-    // Adding a stream binding to keep track of bucket being deleted
-    criticalInfoChanged
-        .bindStream(repository.criticalBucketInfoChanged(bucketModel.bucketId));
-    // Listening to changes and deleting
-    criticalInfoSub = criticalInfoChanged.listen((p0) {
-      if (p0) {
+
+    bucketStream = await FirestoreDb.getBucketStream(bucketModel.id!);
+    // Listening to bucket to ensure that bucket isn't deleted when it is open
+    // Ideally won't happen on one phone, but if logged in same account using two phones this can arise
+    bucketStreamSub = bucketStream.listen((DocumentSnapshot docSnap) {
+      if (!docSnap.exists) {
         Get.defaultDialog(
             title: "Error!",
-            titlePadding: EdgeInsets.fromLTRB(0, 21, 0, 0),
+            titlePadding: const EdgeInsets.fromLTRB(0, 21, 0, 0),
             backgroundColor: kprimaryColor,
-            titleStyle: TextStyle(
+            titleStyle: const TextStyle(
                 color: Colors.black,
                 fontSize: 23,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w500),
-            contentPadding: EdgeInsets.all(21),
+            contentPadding: const EdgeInsets.all(21),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "This bucket has been deleted!",
                   style: TextStyle(
                       color: Colors.black,
@@ -61,16 +61,6 @@ class BucketInfoController extends GetxController {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       TextButton(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                            "Go back!",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontFamily: 'Raleway'),
-                          ),
-                        ),
                         style: ButtonStyle(
                             overlayColor: MaterialStateProperty.all(
                                 Colors.white.withOpacity(0.15)),
@@ -80,17 +70,32 @@ class BucketInfoController extends GetxController {
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18.0),
-                                    side: BorderSide(color: Colors.black)))),
+                                    side: const BorderSide(
+                                        color: Colors.black)))),
                         onPressed: () async {
                           Get.offNamedUntil('/home', (route) => false,
                               arguments: userModel);
                         },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Text(
+                            "Go back!",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontFamily: 'Raleway'),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 )
               ],
             ));
+      } else {
+        // Always storing latest copy of bucket to fetch entries
+        bucketModel =
+            BucketModel.fromDocumentSnapshot(documentSnapshot: docSnap);
       }
     });
   }
@@ -98,13 +103,10 @@ class BucketInfoController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    // entries.listen((p0) {
-    //   print("READY : ${p0}");
-    // });
   }
 
   @override
   void onClose() async {
-    await criticalInfoSub.cancel();
+    await bucketStreamSub.cancel();
   }
 }
