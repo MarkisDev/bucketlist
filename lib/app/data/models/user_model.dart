@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class UserModel {
   late String fullName;
@@ -20,13 +20,24 @@ class UserModel {
       required this.bucketId});
 
   /// Constructor to init variables from Firebase
-  UserModel.fromdataSnapshot({required Map dataSnapshot}) {
-    fullName = dataSnapshot['fullName'];
-    firstName = dataSnapshot['firstName'];
-    lastName = dataSnapshot['lastName'];
-    bucketId = dataSnapshot['bucketId'];
-    photoUrl = dataSnapshot['photoUrl'];
-    email = dataSnapshot['email'];
-    id = dataSnapshot['id'];
+  UserModel.fromDocumentSnapshot({required DocumentSnapshot documentSnapshot}) {
+    fullName = documentSnapshot['fullName'];
+    firstName = documentSnapshot['firstName'];
+    lastName = documentSnapshot['lastName'];
+    bucketId = documentSnapshot['bucketId'];
+    photoUrl = documentSnapshot['photoUrl'];
+    email = documentSnapshot['email'];
+    id = documentSnapshot['id'];
+  }
+  static Map<String, dynamic> toMap(UserModel userModel) {
+    return {
+      "fullName": userModel.fullName,
+      "firstName": userModel.firstName,
+      "lastName": userModel.lastName,
+      "id": userModel.id,
+      "photoUrl": userModel.photoUrl,
+      "bucketId": userModel.bucketId,
+      "email": userModel.email,
+    };
   }
 }
