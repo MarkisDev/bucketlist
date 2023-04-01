@@ -5,6 +5,7 @@ import 'package:bucketlist/app/ui/widgets/appBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -61,6 +62,31 @@ class BucketInfoView extends GetView<BucketInfoController> {
                         }).toList();
                       }
                       return CustomListView(
+                        empty: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/empty.svg',
+                                height: height * 0.3,
+                                width: width * 0.6,
+                              ),
+                              SizedBox(
+                                height: height * 0.07,
+                              ),
+                              const Text(
+                                'Add an entry to get started!',
+                                style: TextStyle(
+                                  color: Color.fromARGB(150, 255, 255, 255),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  letterSpacing: -0.25,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         header: Column(children: [
                           SizedBox(
                             height: height * 0.02,
