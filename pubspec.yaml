@@ -20,6 +20,7 @@ dependencies:
   animated_floating_buttons: ^0.0.2
   flutter_quill: ^7.0.2
   timeago_flutter: ^1.2.0
+  flutter_svg: ^2.0.4
   flutter:
     sdk: flutter
 
@@ -33,6 +34,8 @@ flutter_icons:
   image_path: "assets/images/icon.jpg"
   min_sdk_android: 30
 flutter:
+  assets:
+    - assets/images/
   fonts:
     - family: Poppins
       fonts:
