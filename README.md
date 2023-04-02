@@ -12,7 +12,7 @@ To get started, download the app here.
 - All changes are synced in realtime :)
 
 # Contact
-For any queries or feedback please do not hesitate to contact [markisdev](mailto:markisdev@gmail.com)
+For any queries or feedback please do not hesitate to contact [markisdev@gmail.com](mailto:markisdev@gmail.com)
 
 # Screenshots
 ![1](./assets/images/1.png)
