@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bucketlist">
+    package="com.markisdev.bucketlist">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="bucketlist"
         android:name="${applicationName}"

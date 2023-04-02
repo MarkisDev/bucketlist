@@ -1,4 +1,4 @@
-package com.example.bucketlist
+package com.markisdev.bucketlist
 
 import io.flutter.embedding.android.FlutterActivity
 
